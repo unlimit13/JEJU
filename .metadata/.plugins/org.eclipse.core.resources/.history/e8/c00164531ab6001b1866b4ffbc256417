@@ -1,0 +1,12 @@
+import java.util.Scanner;
+
+public class JEJU {
+
+	public static void main(String[] args) {
+		System.out.println("-----------------");
+		System.out.println("1. sign up");
+		System.out.println("2. sign in");
+		System.out.println("3. Exit");
+		System.out.println("-----------------");
+	}
+}

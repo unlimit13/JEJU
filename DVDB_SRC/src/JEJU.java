@@ -13,10 +13,11 @@ public class JEJU {
 		System.out.println("3. Exit");
 		System.out.println("-----------------");
 		
-		int bit = scan.nextInt();
+		int bit = scan.nextInt(); 
+		//bit1ì€ sign up
 		
 		
-		if(bit ==1) {
+		if(bit ==1) { 	//bit1ì€ sign up
 			System.out.println("-----------------");
 			System.out.println("ID : ");
 			System.out.println("PW : ");
@@ -31,7 +32,7 @@ public class JEJU {
 			continue;
 		}
 		
-		else if(bit==2) {
+		else if(bit==2) { 	//bit1ì€ sign in
 			System.out.print("ID : ");
 			String ID = scan.next();
 			System.out.print("PW : ");
@@ -41,90 +42,112 @@ public class JEJU {
 			System.out.println("Welcome!\n");
 			
 			System.out.println("-----------------");
-			System.out.println("1. ¼÷¹Ú");
-			System.out.println("2. ½Ä´ç");
-			System.out.println("3. °ü±¤");
-			System.out.println("4. ¼øÀ§È®ÀÎ");
+			System.out.println("1. ìˆ™ë°•");
+			System.out.println("2. ì‹ë‹¹");
+			System.out.println("3. ê´€ê´‘");
+			System.out.println("4. ìˆœìœ„í™•ì¸");
 			System.out.println("5. exit");
 			System.out.println("-----------------");
 			
 			int token = scan.nextInt();
 			
-			if(token==1) {//¼÷¹Ú, Áú¹®ÇüÅÂ
+			if(token==1) {//ìˆ™ë°•, ì§ˆë¬¸í˜•íƒœ
 				
 				System.out.println("Select 1 or 2");
 				System.out.println("-----------------");
-				System.out.println("1. Á¦ÁÖ½º·¯¿î");
-				System.out.println("2. ·°¼Å¸®ÇÑ");
+				System.out.println("1. ì œì£¼ìŠ¤ëŸ¬ìš´");
+				System.out.println("2. ëŸ­ì…”ë¦¬í•œ");
 				System.out.println("-----------------");
 				
 				int token1 = scan.nextInt();
 				if(token1==1) {
-					System.out.println("Selected 'Á¦ÁÖ½º·¯¿î'");
-					System.out.println("-----------------");
-					System.out.println("1. Ä£±¸µé°ú");
-					System.out.println("2. °¡Á·µé°ú");
-					System.out.println("-----------------");
+					System.out.println("Selected 'ì œì£¼ìŠ¤ëŸ¬ìš´'");
+					
 				}
 				else if(token1==2) {
-					System.out.println("Select '·°¼Å¸®ÇÑ'");
-					System.out.println("-----------------");
-					System.out.println("1. µ¶Ã¤");
-					System.out.println("2. °Ô½ºÆ®ÇÏ¿ì½º");
-					System.out.println("-----------------");
-					int token11 = scan.nextInt();
+					System.out.println("Select 'ëŸ­ì…”ë¦¬í•œ'");
 				}
-				System.out.println("---------------°á°ú----------------");
-				System.out.println("¼±ÅÃµÈ 'Á¦ÁÖ½º·¯¿î','µ¶Ã¤' ÄÁ¼ÁÀÇ ¼÷¹Ú¾÷¼Ò´Â");
-				System.out.println("ÀÌ¸§ : ~~~~ / ÁÖ¼Ò:~~~~ /  Ã¼Å©ÀÎ½Ã°£:~~~ / ÀüÈ­¹øÈ£:~~~");
-				System.out.println("ÀÌ¸§ : ~~~~ / ÁÖ¼Ò:~~~~ /  Ã¼Å©ÀÎ½Ã°£:~~~ / ÀüÈ­¹øÈ£:~~~");
-				System.out.println("ÀÌ¸§ : ~~~~ / ÁÖ¼Ò:~~~~ /  Ã¼Å©ÀÎ½Ã°£:~~~ / ÀüÈ­¹øÈ£:~~~");
+				
+				int token11 = scan.nextInt();
+				System.out.println("-----------------");
+				System.out.println("1. ë…ì±„ ");
+				System.out.println("2. ë‹¤ì„¸ëŒ€ ");
+				System.out.println("-----------------");
+				
+				if(token11 == 1) {
+					System.out.println("Select 'ë…ì±„' ");
+				}
+				if(token11 == 2) {
+					System.out.println("Select 'ë‹¤ì„¸ëŒ€'");
+				}
+				
+				int token111 = scan.nextInt();
+				System.out.println("-----------------");
+				System.out.println("1. ë„ì‹¬");
+				System.out.println("2. í•œì í•œ");
+				System.out.println("-----------------");
+				
+				if(token111 == 1) {
+					System.out.println("Select 'ë„ì‹¬' ");
+				}
+				if(token111 == 2) {
+					System.out.println("Select 'í•œì í•œ'");
+				}
+				
+				String select = String.valueOf(token1) + String.valueOf(token11) + String.valueOf(token111);
+				//selectëŠ” 111~222
+				
+				System.out.println("---------------ê²°ê³¼----------------");
+				System.out.println("ì„ íƒëœ 'ì œì£¼ìŠ¤ëŸ¬ìš´','ë…ì±„' ì»¨ì…‰ì˜ ìˆ™ë°•ì—…ì†ŒëŠ”");
+				System.out.println("ì´ë¦„ : ~~~~ / ì£¼ì†Œ:~~~~ /  ì²´í¬ì¸ì‹œê°„:~~~ / ì „í™”ë²ˆí˜¸:~~~");
+				System.out.println("ì´ë¦„ : ~~~~ / ì£¼ì†Œ:~~~~ /  ì²´í¬ì¸ì‹œê°„:~~~ / ì „í™”ë²ˆí˜¸:~~~");
+				System.out.println("ì´ë¦„ : ~~~~ / ì£¼ì†Œ:~~~~ /  ì²´í¬ì¸ì‹œê°„:~~~ / ì „í™”ë²ˆí˜¸:~~~");
 				
 			}
 			
-			else if(token==2) {//À½½Ä, ¿ùµåÄÅ ÇüÅÂ
+			else if(token==2) {//ìŒì‹, ì›”ë“œì»µ í˜•íƒœ
 				System.out.println("Select");
 				System.out.println("-----------------");
-				System.out.println("1. ÇâÅäÀ½½Ä");
-				System.out.println("2. ÀÏ¹İÀûÀÎ");
+				System.out.println("1. í–¥í† ìŒì‹");
+				System.out.println("2. ì¼ë°˜ì ì¸");
 				System.out.println("-----------------");
 				
 				int token2 = scan.nextInt();
 				if(token2==1) {
-					//¿ùµåÄÅ ½ÃÀÛ
-					System.out.println("------´ç½ÅÀÌ ¸Ô°í½ÍÀº À½½ÄÀº?-------");
-					System.out.println("--------16°­---------");
-					System.out.println("1. Á¢Â¦»À±¹");
-					System.out.println("2. °í±â±¹¼ö");
+					//ì›”ë“œì»µ ì‹œì‘
+					System.out.println("------ë‹¹ì‹ ì´ ë¨¹ê³ ì‹¶ì€ ìŒì‹ì€?-------");
+					System.out.println("--------16ê°•---------");
+					System.out.println("1. ì ‘ì§ë¼ˆêµ­");
+					System.out.println("2. ê³ ê¸°êµ­ìˆ˜");
 					System.out.println("-----------------");
 					int token21 = scan.nextInt();
 					System.out.println(".\n.\n.\n.\n.\n.\n.\n.\n");
-					System.out.println("------´ç½ÅÀÌ ¸Ô°í½ÍÀº À½½ÄÀº?-------");
-					System.out.println("--------°á½Â---------");
-					System.out.println("1. Á¢Â¦»À±¹");
-					System.out.println("2. ÈæµÅÁö");
+					System.out.println("------ë‹¹ì‹ ì´ ë¨¹ê³ ì‹¶ì€ ìŒì‹ì€?-------");
+					System.out.println("--------ê²°ìŠ¹---------");
+					System.out.println("1. ì ‘ì§ë¼ˆêµ­");
+					System.out.println("2. í‘ë¼ì§€");
 					System.out.println("-----------------");
 					int token22 = scan.nextInt();
-					System.out.println("--------°á°ú---------");
-					System.out.println("¼±ÅÃµÈ 'Á¢Â¦»À±¹'¸Ş´º¸¦ ÆÇ¸ÅÇÏ´Â ¿©ÇàÁö³» ½Ä´çÀº");
-					System.out.println("ÀÌ¸§ : ~~~~ / ÁÖ¼Ò:~~~~ /  ¿µ¾÷½Ã°£:~~~");
-					System.out.println("ÀÌ¸§ : ~~~~ / ÁÖ¼Ò:~~~~ /  ¿µ¾÷½Ã°£:~~~");
-					System.out.println("ÀÌ¸§ : ~~~~ / ÁÖ¼Ò:~~~~ /  ¿µ¾÷½Ã°£:~~~");
+					System.out.println("--------ê²°ê³¼---------");
+					System.out.println("ì„ íƒëœ 'ì ‘ì§ë¼ˆêµ­'ë©”ë‰´ë¥¼ íŒë§¤í•˜ëŠ” ì—¬í–‰ì§€ë‚´ ì‹ë‹¹ì€");
+					System.out.println("ì´ë¦„ : ~~~~ / ì£¼ì†Œ:~~~~ /  ì˜ì—…ì‹œê°„:~~~");
+					System.out.println("ì´ë¦„ : ~~~~ / ì£¼ì†Œ:~~~~ /  ì˜ì—…ì‹œê°„:~~~");
+					System.out.println("ì´ë¦„ : ~~~~ / ì£¼ì†Œ:~~~~ /  ì˜ì—…ì‹œê°„:~~~");
 					
 					
 				}
 				else if(token2==2) {
-					//¿ùµåÄÅ½ÃÀÛ
+					//ì›”ë“œì»µì‹œì‘
 				}
 				
 				
 			}
 			
-			else if(token==3) {//Áú¹®
+			else if(token==3) {//ì§ˆë¬¸
 				System.out.println("Select");
 				System.out.println("-----------------");
-				System.out.println("1. È°µ¿ÀûÀÎ");
-				System.out.println("2. ÀÜÀÜÇÑ");
+				System.out.println("1. í™œë™ì ì¸");
+				System.out.println("2. ì”ì”í•œ");
 				System.out.println("-----------------");
 				
 				int token3 = scan.nextInt();
@@ -132,18 +155,18 @@ public class JEJU {
 					
 				}
 				else if(token3==2) {
-					System.out.println("Selected 'ÀÜÀÜÇÑ'");
+					System.out.println("Selected 'ì”ì”í•œ'");
 					System.out.println("-----------------");
-					System.out.println("1. ÀÎ½ºÅ¸ ¸í¼Ò");
-					System.out.println("2. ÀÚ¿¬ÀÌ ¾Æ¸§´Ù¿î");
+					System.out.println("1. ì¸ìŠ¤íƒ€ ëª…ì†Œ");
+					System.out.println("2. ìì—°ì´ ì•„ë¦„ë‹¤ìš´");
 					System.out.println("-----------------");
 					int token131 = scan.nextInt();
 					}
-				System.out.println("'ÀÜÀÜÇÑ', 'ÀÎ½ºÅ¸¸í¼Ò'·Î ÃßÃµµÇ´Â °ü±¤Áö´Â : ");
-				System.out.println("ÀÌ¸§ : ~~~~ / ÁÖ¼Ò:~~~~ / Å×¸¶:~~~~ / ¿µ¾÷½Ã°£:~~~");
-				System.out.println("ÀÌ¸§ : ~~~~ / ÁÖ¼Ò:~~~~ / Å×¸¶:~~~~ / ¿µ¾÷½Ã°£:~~~");
-				System.out.println("ÀÌ¸§ : ~~~~ / ÁÖ¼Ò:~~~~ / Å×¸¶:~~~~ / ¿µ¾÷½Ã°£:~~~");
-				System.out.println("ÃÊ±â¸Ş´º·Î µ¹¾Æ°¡½Ã°Ú½À´Ï±î?");
+				System.out.println("'ì”ì”í•œ', 'ì¸ìŠ¤íƒ€ëª…ì†Œ'ë¡œ ì¶”ì²œë˜ëŠ” ê´€ê´‘ì§€ëŠ” : ");
+				System.out.println("ì´ë¦„ : ~~~~ / ì£¼ì†Œ:~~~~ / í…Œë§ˆ:~~~~ / ì˜ì—…ì‹œê°„:~~~");
+				System.out.println("ì´ë¦„ : ~~~~ / ì£¼ì†Œ:~~~~ / í…Œë§ˆ:~~~~ / ì˜ì—…ì‹œê°„:~~~");
+				System.out.println("ì´ë¦„ : ~~~~ / ì£¼ì†Œ:~~~~ / í…Œë§ˆ:~~~~ / ì˜ì—…ì‹œê°„:~~~");
+				System.out.println("ì´ˆê¸°ë©”ë‰´ë¡œ ëŒì•„ê°€ì‹œê² ìŠµë‹ˆê¹Œ?");
 				Thread.sleep(7000);
 				
 			}
@@ -151,28 +174,28 @@ public class JEJU {
 			else if(token==4) {
 				System.out.println("Select");
 				System.out.println("-----------------");
-				System.out.println("1. Most selected in À½½Ä");
-				System.out.println("2. Most selected in °ü±¤");
-				System.out.println("2. Most selected in ¼÷¹Ú");
+				System.out.println("1. Most selected in ìŒì‹");
+				System.out.println("2. Most selected in ê´€ê´‘");
+				System.out.println("2. Most selected in ìˆ™ë°•");
 				System.out.println("-----------------");
 				
 				int token4 = scan.nextInt();
 				if(token4==1) {
-					System.out.println("ID : 131´ÔÀÌ ¼³Á¤ÇÑ ³²/20´ë/Á¦ÁÖµµ µ¿ºÎ ¿¡¼­ÀÇ °¡Àå ÀÎ±âÀÖ´Â À½½ÄÀº");
-					System.out.println("Ä«Å×°í¸® : ÇâÅäÀ½½Ä, À½½Ä:Á¢Â¦»À±¹");
-					System.out.println("½Ä´ç");
-					System.out.println("ÀÌ¸§ : ~~~~ / ÁÖ¼Ò:~~~~ /  ¿µ¾÷½Ã°£:~~~");
-					System.out.println("ÀÌ¸§ : ~~~~ / ÁÖ¼Ò:~~~~ /  ¿µ¾÷½Ã°£:~~~");
-					System.out.println("ÀÌ¸§ : ~~~~ / ÁÖ¼Ò:~~~~ /  ¿µ¾÷½Ã°£:~~~");
+					System.out.println("ID : 131ë‹˜ì´ ì„¤ì •í•œ ë‚¨/20ëŒ€/ì œì£¼ë„ ë™ë¶€ ì—ì„œì˜ ê°€ì¥ ì¸ê¸°ìˆëŠ” ìŒì‹ì€");
+					System.out.println("ì¹´í…Œê³ ë¦¬ : í–¥í† ìŒì‹, ìŒì‹:ì ‘ì§ë¼ˆêµ­");
+					System.out.println("ì‹ë‹¹");
+					System.out.println("ì´ë¦„ : ~~~~ / ì£¼ì†Œ:~~~~ /  ì˜ì—…ì‹œê°„:~~~");
+					System.out.println("ì´ë¦„ : ~~~~ / ì£¼ì†Œ:~~~~ /  ì˜ì—…ì‹œê°„:~~~");
+					System.out.println("ì´ë¦„ : ~~~~ / ì£¼ì†Œ:~~~~ /  ì˜ì—…ì‹œê°„:~~~");
 					
 				}
 				else if(token4==2) {
-					System.out.println("ID : ~~~´ÔÀÌ ¼³Á¤ÇÑ ³²/20´ë/Á¦ÁÖµµ µ¿ºÎ ¿¡¼­ÀÇ °¡Àå ÀÎ±âÀÖ´Â °ü±¤Áö´Â");
-					System.out.println("Ä«Å×°í¸®: ~~~-~~~-~~~ °ü±¤Áö¸í : ~~~~~~~~~~");
+					System.out.println("ID : ~~~ë‹˜ì´ ì„¤ì •í•œ ë‚¨/20ëŒ€/ì œì£¼ë„ ë™ë¶€ ì—ì„œì˜ ê°€ì¥ ì¸ê¸°ìˆëŠ” ê´€ê´‘ì§€ëŠ”");
+					System.out.println("ì¹´í…Œê³ ë¦¬: ~~~-~~~-~~~ ê´€ê´‘ì§€ëª… : ~~~~~~~~~~");
 				}
 				else if(token4==3) {
-					System.out.println("ID : ~~~´ÔÀÌ ¼³Á¤ÇÑ ³²/20´ë/Á¦ÁÖµµ µ¿ºÎ ¿¡¼­ÀÇ °¡Àå ÀÎ±âÀÖ´Â ¼÷¹ÚÇüÅÂ´Â");
-					System.out.println("Ä«Å×°í¸®: ~~~-~~~-~~~ ¼÷¹Ú : ~~~~~~~~~~");
+					System.out.println("ID : ~~~ë‹˜ì´ ì„¤ì •í•œ ë‚¨/20ëŒ€/ì œì£¼ë„ ë™ë¶€ ì—ì„œì˜ ê°€ì¥ ì¸ê¸°ìˆëŠ” ìˆ™ë°•í˜•íƒœëŠ”");
+					System.out.println("ì¹´í…Œê³ ë¦¬: ~~~-~~~-~~~ ìˆ™ë°• : ~~~~~~~~~~");
 				}
 				
 			
@@ -184,9 +207,11 @@ public class JEJU {
 			
 			
 		}
-		else if(bit==3) {
+		else if(bit==3) 	//bit3ì€exit
+		{
 			return;
-			}
+			
+		}
 		}
 	}
 }

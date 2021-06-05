@@ -3,44 +3,96 @@ import java.sql.*;
 
 public class JEJU {
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException, SQLException {
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
-		
-	while(true) {	
-		System.out.println("-----------------");
-		System.out.println("1. sign up");
-		System.out.println("2. sign in");
-		System.out.println("3. Exit");
-		System.out.println("-----------------");
-		
-		int bit = scan.nextInt(); 
-		//bit1은 sign up
-		
-		
-		if(bit ==1) { 	//bit1은 sign up
+		int result;
+		String sql;
+	    PreparedStatement ps;
+	    ResultSet rs;
+		String ID = "postgres", pwd = "bj@980613";
+        String url = "jdbc:postgresql://localhost:5432/";
+        Connection conn = DriverManager.getConnection(url, ID, pwd); //연결
+        sql = "create table host(uID varchar(20), pwd varchar(20), sex char(2), age int, direction char(2));";
+               
+        ps = conn.prepareStatement(sql);    
+        result = ps.executeUpdate();
+        
+        
+		while(true) 
+		{	
 			System.out.println("-----------------");
-			System.out.println("ID : ");
-			System.out.println("PW : ");
-			System.out.println("Sex(F,M) : ");
-			System.out.println("Age : ");
-			System.out.println("plan to visit[E,W,S,N] : ");
+			System.out.println("1. sign up");
+			System.out.println("2. sign in");
+			System.out.println("3. Exit");
 			System.out.println("-----------------");
 			
-			String detail = scan.next();
-			System.out.println("Sign up complete!");
-			Thread.sleep(2000);
-			continue;
+			String bit = scan.nextLine(); 
+
+			
+			if(bit.contains("1")) { 	//bit1은 sign up
+				System.out.println();
+				System.out.println("-----------------");
+				System.out.print("ID : ");
+				
+				String uID = scan.nextLine();
+				
+				System.out.print("PW : ");
+				String PWD = scan.nextLine();
+				
+				System.out.print("Sex(F,M) : ");
+				String Sex = scan.nextLine();
+				
+				System.out.print("Age : ");
+				String temp = scan.nextLine();
+				int Age = Integer.parseInt(temp);
+				
+				System.out.print("plan to visit[E,W,S,N] : ");
+				String Direction = scan.nextLine();
+				
+				System.out.println("-----------------");
+				
+				sql = "insert into host values(?,?,?,?,?);";
+		        ps = conn.prepareStatement(sql);
+		        ps.clearParameters();
+		        ps.setString(1,uID);
+		        ps.setString(2,PWD);
+		        ps.setString(3,Sex);
+		        ps.setInt(4,Age);
+		        ps.setString(5,Direction);
+		        result = ps.executeUpdate();
+		        
+		        System.out.println();
+				System.out.println("Sign up complete!");
+				System.out.println();
+				continue;
 		}
 		
-		else if(bit==2) { 	//bit1은 sign in
+		else if(bit.contains("2")) 
+		{ 	//bit1은 sign in
+			System.out.println();
 			System.out.print("ID : ");
-			String ID = scan.next();
+			String uID = scan.nextLine();
 			System.out.print("PW : ");
-			String PW = scan.next();
+			String PWD = scan.nextLine();
+			sql = "select pwd from host where uID = ?;";
+			ps = conn.prepareStatement(sql);
+			ps.clearParameters();
+		    ps.setString(1,uID);
+			rs = ps.executeQuery();
 			
-			Thread.sleep(1000);
+			rs.next();
+			String PWD_in_table = rs.getString(1);
+			
+			if(!PWD.equals(PWD_in_table)) //비밀번호 입력이 틀리면,
+			{
+				System.out.println("Password is incorrect\n");
+	
+				continue;
+			}
+			
+			System.out.println();
 			System.out.println("Welcome!\n");
-			
 			System.out.println("-----------------");
 			System.out.println("1. 숙박");
 			System.out.println("2. 식당");
@@ -52,7 +104,10 @@ public class JEJU {
 			int token = scan.nextInt();
 			
 			if(token==1) {//숙박, 질문형태
-				
+				String first = "";
+				String second = "";
+				String third = "";
+				System.out.println();
 				System.out.println("Select 1 or 2");
 				System.out.println("-----------------");
 				System.out.println("1. 제주스러운");
@@ -60,48 +115,71 @@ public class JEJU {
 				System.out.println("-----------------");
 				
 				int token1 = scan.nextInt();
+				System.out.println();
 				if(token1==1) {
 					System.out.println("Selected '제주스러운'");
+					first ="제주스러운";
 					
 				}
 				else if(token1==2) {
 					System.out.println("Select '럭셔리한'");
+					first ="럭셔리한";
 				}
 				
-				int token11 = scan.nextInt();
+				System.out.println();
 				System.out.println("-----------------");
 				System.out.println("1. 독채 ");
 				System.out.println("2. 다세대 ");
 				System.out.println("-----------------");
-				
+				int token11 = scan.nextInt();
+				System.out.println();
 				if(token11 == 1) {
 					System.out.println("Select '독채' ");
+					second = "독채 ";
 				}
 				if(token11 == 2) {
 					System.out.println("Select '다세대'");
+					second = "다세대 ";
 				}
 				
-				int token111 = scan.nextInt();
+				scan.nextLine();
+				System.out.println();
 				System.out.println("-----------------");
 				System.out.println("1. 도심");
 				System.out.println("2. 한적한");
 				System.out.println("-----------------");
 				
+				
+				String temp = scan.nextLine();
+				
+				int token111;
+				if(temp.contains("1"))
+					token111 = 1;
+				else
+					token111 = 2;
+				System.out.println();
 				if(token111 == 1) {
 					System.out.println("Select '도심' ");
+					third = "도심 ";
 				}
 				if(token111 == 2) {
 					System.out.println("Select '한적한'");
+					third = "한적한 ";
 				}
 				
-				String select = String.valueOf(token1) + String.valueOf(token11) + String.valueOf(token111);
+				String select = String.valueOf(token1).concat(String.valueOf(token11));
+				select = select.concat(String.valueOf(token111));
 				//select는 111~222
 				
+				
+				System.out.println(select);
+				System.out.println();
 				System.out.println("---------------결과----------------");
-				System.out.println("선택된 '제주스러운','독채' 컨셉의 숙박업소는");
+				System.out.println("선택된 " + first + " , " + second +  " , " + third);
 				System.out.println("이름 : ~~~~ / 주소:~~~~ /  체크인시간:~~~ / 전화번호:~~~");
 				System.out.println("이름 : ~~~~ / 주소:~~~~ /  체크인시간:~~~ / 전화번호:~~~");
 				System.out.println("이름 : ~~~~ / 주소:~~~~ /  체크인시간:~~~ / 전화번호:~~~");
+				System.out.println();
 				
 			}
 			
@@ -143,31 +221,114 @@ public class JEJU {
 				
 			}
 			
-			else if(token==3) {//질문
-				System.out.println("Select");
+			else if(token==3) {//관광지 질
+				String first = "";
+				String second = "";
+				String third = "";
+				System.out.println();
+				System.out.println("Select 1 or 2");
 				System.out.println("-----------------");
-				System.out.println("1. 활동적인");
-				System.out.println("2. 잔잔한");
+				System.out.println("1. 활동적인 ");
+				System.out.println("2. 잔잔한 ");
 				System.out.println("-----------------");
 				
-				int token3 = scan.nextInt();
-				if(token3==1) {
+				int token1 = scan.nextInt();
+				System.out.println();
+				if(token1==1) {
+					System.out.println("Selected '활동적인'");
+					first ="활동적인 ";
 					
 				}
-				else if(token3==2) {
-					System.out.println("Selected '잔잔한'");
+				else if(token1==2) {
+					System.out.println("Select '잔잔한'");
+					first ="잔잔한 ";
+				}
+				
+				System.out.println();
+				System.out.println("-----------------");
+				System.out.println("1. 인스타명소 ");
+				System.out.println("2. 자연이 아름다운 ");
+				System.out.println("-----------------");
+				int token11 = scan.nextInt();
+				System.out.println();
+				if(token11 == 1) {
+					System.out.println("Select '인스타명소' ");
+					second = "인스타명소 ";
+				}
+				if(token11 == 2) {
+					System.out.println("Select '자연이아름다운'");
+					second = "자연이아름다운 ";
+				}
+				
+				scan.nextLine();
+				int token111 = 0;
+				
+				if(token11 == 1)
+				{
+					System.out.println();
 					System.out.println("-----------------");
-					System.out.println("1. 인스타 명소");
-					System.out.println("2. 자연이 아름다운");
+					System.out.println("1. 카페 ");
+					System.out.println("2. 감성술집 ");
 					System.out.println("-----------------");
-					int token131 = scan.nextInt();
+					String temp = scan.nextLine();
+					
+					if(temp.contains("1"))
+						token111 = 1;
+					else
+						token111 = 2;
+					System.out.println();
+					if(token111 == 1) {
+						System.out.println("Select '카페' ");
+						third = "카페 ";
 					}
-				System.out.println("'잔잔한', '인스타명소'로 추천되는 관광지는 : ");
+					if(token111 == 2) {
+						System.out.println("Select '감성술집'");
+						third = "감성술집";
+					}
+				}
+				else if(token11 == 2)
+				{
+					System.out.println();
+					System.out.println("-----------------");
+					System.out.println("1. 산 ");
+					System.out.println("2. 바다");
+					System.out.println("-----------------");
+					String temp = scan.nextLine();
+					
+					if(temp.contains("1"))
+						token111 = 1;
+					else
+						token111 = 2;
+					System.out.println();
+					if(token111 == 1) {
+						System.out.println("Select '산' ");
+						third = "산 ";
+					}
+					if(token111 == 2) {
+						System.out.println("Select '바다'");
+						third = "바다";
+					}
+				}
+				
+				
+				
+				
+				
+				String select = String.valueOf(token1).concat(String.valueOf(token11));
+				select = select.concat(String.valueOf(token111));
+				//select는 111~222
+				
+				
+				System.out.println(select);
+				System.out.println();
+				System.out.println("---------------결과----------------");
+				System.out.println("선택된 " + first + " , " + second +  " , " + third);
+				
 				System.out.println("이름 : ~~~~ / 주소:~~~~ / 테마:~~~~ / 영업시간:~~~");
 				System.out.println("이름 : ~~~~ / 주소:~~~~ / 테마:~~~~ / 영업시간:~~~");
 				System.out.println("이름 : ~~~~ / 주소:~~~~ / 테마:~~~~ / 영업시간:~~~");
 				System.out.println("초기메뉴로 돌아가시겠습니까?");
-				Thread.sleep(7000);
+
 				
 			}
 			
@@ -207,7 +368,7 @@ public class JEJU {
 			
 			
 		}
-		else if(bit==3) 	//bit3은exit
+		else if(bit.contains("3")) 	//bit3은exit
 		{
 			return;
 			

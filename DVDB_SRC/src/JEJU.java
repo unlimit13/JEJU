@@ -1,7 +1,7 @@
 import java.util.*;
 import java.sql.*;
 
-public class JEJU {
+public class JEJUDEMO {
 
 	public static void main(String[] args) throws InterruptedException, SQLException {
 		@SuppressWarnings("resource")
@@ -372,6 +372,38 @@ public class JEJU {
 		{
 			return;
 			
+		}
+		else if(bit.contains("4")) //bit4는 관리자모
+		{
+			System.out.println();
+			System.out.println("관리자모드 ");
+			System.out.println("-----------------");
+			System.out.println("1. 데이터관리");
+			System.out.println("2. 회원관리");
+			System.out.println("-----------------");
+			String bit2 = scan.nextLine();
+			if(bit2.contains("1"))
+			{
+				System.out.println();
+				System.out.println("데이터관리 ");
+				String bit3 = scan.nextLine();
+				if(bit3.contains("1"))
+				{
+					System.out.println();
+					System.out.println("데이터추가");
+				}
+				else if(bit3.contains("2"))
+				{
+					System.out.println();
+					System.out.println("데이터삭제");
+				}
+				
+			}
+			else if(bit2.contains("2"))
+			{
+				System.out.println();
+				System.out.println("회원관리 ");
+			}
 		}
 		}
 	}

@@ -3,6 +3,7 @@ import java.sql.*;
 
 public class JEJUDEMO {
 
+	@SuppressWarnings("resource")
 	public static void main(String[] args) throws InterruptedException, SQLException {
 		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
@@ -13,10 +14,7 @@ public class JEJUDEMO {
 		String ID = "postgres", pwd = "bj@980613";
         String url = "jdbc:postgresql://localhost:5432/";
         Connection conn = DriverManager.getConnection(url, ID, pwd); //연결
-        sql = "create table host(uID varchar(20), pwd varchar(20), sex char(2), age int, direction char(2));";
-               
-        ps = conn.prepareStatement(sql);    
-        result = ps.executeUpdate();
+       
         
         
 		while(true) 
@@ -184,41 +182,253 @@ public class JEJUDEMO {
 			}
 			
 			else if(token==2) {//음식, 월드컵 형태
+				System.out.println();
 				System.out.println("Select");
 				System.out.println("-----------------");
 				System.out.println("1. 향토음식");
 				System.out.println("2. 일반적인");
 				System.out.println("-----------------");
-				
+	            ArrayList<String> candidate_menu = new ArrayList<>();
 				int token2 = scan.nextInt();
-				if(token2==1) {
-					//월드컵 시작
-					System.out.println("------당신이 먹고싶은 음식은?-------");
-					System.out.println("--------16강---------");
-					System.out.println("1. 접짝뼈국");
-					System.out.println("2. 고기국수");
-					System.out.println("-----------------");
-					int token21 = scan.nextInt();
-					System.out.println(".\n.\n.\n.\n.\n.\n.\n.\n");
-					System.out.println("------당신이 먹고싶은 음식은?-------");
-					System.out.println("--------결승---------");
-					System.out.println("1. 접짝뼈국");
-					System.out.println("2. 흑돼지");
-					System.out.println("-----------------");
-					int token22 = scan.nextInt();
-					System.out.println("--------결과---------");
-					System.out.println("선택된 '접짝뼈국'메뉴를 판매하는 여행지내 식당은");
-					System.out.println("이름 : ~~~~ / 주소:~~~~ /  영업시간:~~~");
-					System.out.println("이름 : ~~~~ / 주소:~~~~ /  영업시간:~~~");
-					System.out.println("이름 : ~~~~ / 주소:~~~~ /  영업시간:~~~");
-					
-					
+				
+				if(token2==1) 
+				{
+					//향토음
+					sql = "select distinct menu from nativefood;";
+		            ps = conn.prepareStatement(sql);
+		            rs = ps.executeQuery();
+		            String[] native_menu = new String[115];
+		            int i = 0;
+		            while(rs.next())
+		            {
+		            	if(rs.getString(1).contains("("))
+		            	{
+		            		continue;
+		            	}
+		            	else if(rs.getString(1).contains("+"))
+		            	{
+		            		String[] temp = rs.getString(1).split("\\+");
+		            		for(int k=0;k<temp.length;k++)
+		            		{
+		            			native_menu[i] = temp[k];
+		            			i++;
+		            		}
+		            		continue;
+		            	}
+		            	native_menu[i] = rs.getString(1);
+		                i++;
+		            }
+		            
+		            System.out.println();
+
+		            for(String menu : native_menu){
+		                if(!candidate_menu.contains(menu))
+		                {
+		                	if(!menu.contains("."))
+		                	{
+		                		if(!menu.contains(","))
+		                		{
+		                			candidate_menu.add(menu);
+		                		}
+		                	}
+		                }
+		            }
+		            
+	
+		            Collections.shuffle(candidate_menu); //Array요소들 셔플 
+		            
+		          
+		            
 				}
-				else if(token2==2) {
-					//월드컵시작
+				else if(token2==2) 
+				{
+					//일반음식
+					sql = "select distinct menu from ordinaryfood;";
+					ps = conn.prepareStatement(sql);
+		            rs = ps.executeQuery();
+		            
+		            String[] ordinary_menu = new String[370];
+		            int i = 0;
+		            while(rs.next())
+		            {
+		            	if(rs.getString(1) == null || rs.getString(1).contains("(") )
+		            	{
+		            		continue;
+		            	}
+		            	else if(rs.getString(1).contains(","))
+		            	{
+		            		String[] temp = rs.getString(1).split("\\,");
+		            		for(int k=0;k<temp.length;k++)
+		            		{
+		            			ordinary_menu[i] = temp[k];
+		            			i++;
+		            		}
+		            		continue;
+		            	}
+		            	ordinary_menu[i] = rs.getString(1);
+		                i++;
+		            }
+		            
+		            System.out.println();
+
+		            for(String menu : ordinary_menu){
+		                if(!candidate_menu.contains(menu))
+		                {
+		                	if(!menu.contains("."))
+		                	{
+		                		if(!menu.contains(","))
+		                		{
+		                			candidate_menu.add(menu);
+		                		}
+		                	}
+		                }
+		            }
+		            Collections.shuffle(candidate_menu); //Array요소들 셔플   
 				}
 				
+				//candidate_menu에 다 넣었고, 이제 앞에서 16개뽑아서 웓드컵시작
+				String[] round1 = new String[16];
+				String[] round2 = new String[8];
+				String[] round3 = new String[4];
+				String[] round4 = new String[2];
+				String winner;
+				for(int i=0;i<16;i++)
+				{
+					round1[i] = candidate_menu.get(i);
+				}
 				
+				int k = 15;
+				System.out.println("-----------------");
+				System.out.println("       16강      ");
+				System.out.println("-----------------");
+				for(int i=0; i<8; i++)
+				{
+					System.out.println();
+					System.out.println("Select");
+					System.out.println("1. " + round1[i]);
+					System.out.println("2. " + round1[k]);
+					if(scan.nextInt() == 1)
+					{
+						System.out.println(round1[i] + " 승리!");
+						round2[i] = round1[i];
+					}
+					else
+					{
+						System.out.println(round1[k] + " 승리!");
+						round2[i] = round1[k];
+					}
+					k--;
+				}
+				
+				System.out.println();
+				System.out.println();
+				System.out.println("-----------------");
+				System.out.println("       8강      ");
+				System.out.println("-----------------");
+				k = 7;
+				for(int i=0; i<4; i++)
+				{
+					System.out.println();
+					System.out.println("Select");
+					System.out.println("1. " + round2[i]);
+					System.out.println("2. " + round2[k]);
+					if(scan.nextInt() == 1)
+					{
+						System.out.println(round2[i] + " 승리!");
+						round3[i] = round2[i];
+					}
+					else
+					{
+						System.out.println(round2[k] + " 승리!");
+						round3[i] = round2[k];
+					}
+					k--;
+				}
+				
+				System.out.println();
+				System.out.println();
+				System.out.println("-----------------");
+				System.out.println("       4강      ");
+				System.out.println("-----------------");
+				k = 3;
+				for(int i=0; i<2; i++)
+				{
+					System.out.println();
+					System.out.println("Select");
+					System.out.println("1. " + round3[i]);
+					System.out.println("2. " + round3[k]);
+					if(scan.nextInt() == 1)
+					{
+						System.out.println(round3[i] + " 승리!");
+						round4[i] = round3[i];
+					}
+					else
+					{
+						System.out.println(round2[k] + " 승리!");
+						round4[i] = round3[k];
+					}
+					k--;
+				}
+				
+				System.out.println();
+				System.out.println();
+				System.out.println("-----------------");
+				System.out.println("       결승      ");
+				System.out.println("-----------------");
+				k = 1;
+				
+				System.out.println();
+				System.out.println("Select");
+				System.out.println("1. " + round4[0]);
+				System.out.println("2. " + round4[1]);
+				if(scan.nextInt() == 1)
+				{
+					System.out.println(round4[0] + " 승리!");
+					winner= round4[0];
+				}
+				else
+				{
+					System.out.println(round2[k] + " 승리!");
+					winner = round4[1];
+				}
+				
+				System.out.println();
+				System.out.println("-----------------");
+				System.out.println("   최종우승" + winner);
+				System.out.println("-----------------");
+				
+				System.out.println();
+				System.out.println();
+				System.out.println("---------------------------------------------------------------------------------------------------------------------------");
+				System.out.println();
+				System.out.println(winner + " 판매업소");
+				String tableName = "ordinaryfood";
+				if(token2==1) //winner가 포함된 nativefood table정보를보여준다 
+				{
+					sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ?;";
+		
+					
+				}
+				else
+				{
+					sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ?;";
+
+				}
+				
+				ps = conn.prepareStatement(sql);
+				ps.clearParameters();
+			    ps.setString(1, "%" + winner + "%");
+				rs = ps.executeQuery();
+				
+				while(rs.next())
+				{
+					System.out.println(rs.getString(1) + "\t\t" + rs.getString(2) + "\t\t" + rs.getString(3) + "\t\t" + rs.getString(4));
+				}
+				System.out.println("---------------------------------------------------------------------------------------------------------------------------");
+				System.out.println();
+				System.out.println("초기화면으로돌아갑니다 ");
+				System.out.println();
+				scan.nextLine();
 			}
 			
 			else if(token==3) {//관광지 질

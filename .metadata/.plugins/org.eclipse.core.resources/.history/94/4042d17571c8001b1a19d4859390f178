@@ -1,5 +1,6 @@
 package db;
 
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -27,8 +28,8 @@ import java.util.Scanner;
 public class JEJU {
 	
 	private static String url = "jdbc:postgresql://localhost:5432/postgres";
-	private static String user = "unlimit13";
-	private static String password = "1q2w3e4r!";
+	private static String user = "postgres";
+	private static String password = "inter7477";
 	
 
 	public static void main(String args[]) throws SQLException, IOException {
@@ -43,12 +44,12 @@ public class JEJU {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
-			conn = DriverManager.getConnection(url, user, password );
+			conn = DriverManager.getConnection(JEJU.url, JEJU.user, JEJU.password );
 			sql = "create table if not exists host(uID varchar(20), pwd varchar(20), sex char(2), age int, direction char(2));";
 			ps = conn.prepareStatement(sql);
 			result = ps.executeUpdate();
 			Statement statement = conn.createStatement();
-			//total_attraction(statement); //(total attraction 테이블 생성후 attraction 모두 합침)
+			//total_attraction(statement); //(total attraction ���̺� ������ attraction ��� ��ħ)
 			
 			while(true) 
 			{	
@@ -56,12 +57,13 @@ public class JEJU {
 				System.out.println("1. sign up");
 				System.out.println("2. sign in");
 				System.out.println("3. Exit");
+				System.out.println("4. admin");
 				System.out.println("-----------------");
 				String Direction = "";
 				String bit = scan.nextLine(); 
 
 				
-				if(bit.contains("1")) { 	//bit1은 sign up
+				if(bit.contains("1")) { 	//bit1�� sign up
 					System.out.println();
 					System.out.println("-----------------");
 					System.out.print("ID : ");
@@ -100,26 +102,12 @@ public class JEJU {
 				}
 			
 				else if(bit.contains("2")) 
-				{ 	//bit1은 sign in
+				{ 	//bit1�� sign in
 					System.out.println();
 					System.out.print("ID : ");
 					String uID = scan.nextLine();
 					System.out.print("PW : ");
 					String PWD = scan.nextLine();
-					sql = "select count(*) from host where uID = ?;";
-					ps = conn.prepareStatement(sql);
-					ps.clearParameters();
-				    ps.setString(1,uID);
-					rs = ps.executeQuery();
-					rs.next();
-					
-					int count = rs.getInt(1);
-					if(count < 1)
-					{
-						System.out.println("가입하지 않은 사용자입니다");
-						System.out.println();
-						continue;
-					}
 					sql = "select pwd from host where uID = ?;";
 					ps = conn.prepareStatement(sql);
 					ps.clearParameters();
@@ -129,7 +117,7 @@ public class JEJU {
 					rs.next();
 					String PWD_in_table = rs.getString(1);
 				
-					if(!PWD.equals(PWD_in_table)) //비밀번호 입력이 틀리면,
+					if(!PWD.equals(PWD_in_table)) //��й�ȣ �Է��� Ʋ����,
 					{
 						System.out.println("Password is incorrect\n");
 		
@@ -139,16 +127,16 @@ public class JEJU {
 					System.out.println();
 					System.out.println("Welcome!\n");
 					System.out.println("-----------------");
-					System.out.println("1. 숙박");
-					System.out.println("2. 식당");
-					System.out.println("3. 관광");
-					System.out.println("4. 순위확인");
+					System.out.println("1. ����");
+					System.out.println("2. �Ĵ�");
+					System.out.println("3. ����");
+					System.out.println("4. ����Ȯ��");
 					System.out.println("5. exit");
 					System.out.println("-----------------");
 				
 					int token = scan.nextInt();
 					
-					if(token==1) {//숙박, 질문형태
+					if(token==1) {//����, ��������
 						String first = "";
 						String second = "";
 						String third = "";
@@ -156,42 +144,42 @@ public class JEJU {
 						System.out.println();
 						System.out.println("Select 1 or 2");
 						System.out.println("-----------------");
-						System.out.println("1. 제주스러운");
-						System.out.println("2. 럭셔리한");
+						System.out.println("1. ���ֽ�����");
+						System.out.println("2. ���Ÿ���");
 						System.out.println("-----------------");
 					
 						int token1 = scan.nextInt();
 						System.out.println();
 						if(token1==1) {
-							System.out.println("Selected '제주스러운'");
-							first ="제주스러운";
+							System.out.println("Selected '���ֽ�����'");
+							first ="���ֽ�����";
 						}
 						else if(token1==2) {
-							System.out.println("Select '럭셔리한'");
-							first ="럭셔리한";
+							System.out.println("Select '���Ÿ���'");
+							first ="���Ÿ���";
 						}
 					
 						System.out.println();
 						System.out.println("-----------------");
-						System.out.println("1. 독채 ");
-						System.out.println("2. 다세대 ");
+						System.out.println("1. ��ä ");
+						System.out.println("2. �ټ��� ");
 						System.out.println("-----------------");
 						int token11 = scan.nextInt();
 						System.out.println();
 						if(token11 == 1) {
-							System.out.println("Select '독채' ");
-							second = "독채 ";
+							System.out.println("Select '��ä' ");
+							second = "��ä ";
 						}
 						if(token11 == 2) {
-							System.out.println("Select '다세대'");
-							second = "다세대 ";
+							System.out.println("Select '�ټ���'");
+							second = "�ټ��� ";
 						}
 					
 						scan.nextLine();
 						System.out.println();
 						System.out.println("-----------------");
-						System.out.println("1. 도심");
-						System.out.println("2. 한적한");
+						System.out.println("1. ����");
+						System.out.println("2. ������");
 						System.out.println("-----------------");
 					
 					
@@ -204,17 +192,17 @@ public class JEJU {
 							token111 = 2;
 						System.out.println();
 						if(token111 == 1) {
-							System.out.println("Select '도심' ");
-							third = "도심 ";
+							System.out.println("Select '����' ");
+							third = "���� ";
 						}
 						if(token111 == 2) {
-							System.out.println("Select '한적한'");
-							third = "한적한 ";
+							System.out.println("Select '������'");
+							third = "������ ";
 						}
 					
 						String select = String.valueOf(token1).concat(String.valueOf(token11));
 						select = select.concat(String.valueOf(token111));
-					//select는 111~222
+					//select�� 111~222
 					
 						statement = conn.createStatement();
 						sql = "select direction from host where uid = "+ uID +"::varchar"+";";
@@ -223,26 +211,26 @@ public class JEJU {
 						
 						System.out.println(select);
 						System.out.println();
-						System.out.println("---------------결과----------------");
-						System.out.println("선택된 " + first + " , " + second +  " , " + third);
+						System.out.println("---------------���----------------");
+						System.out.println("���õ� " + first + " , " + second +  " , " + third);
 						Methods.lodg(statement, direction, select, uID);
 						System.out.println();
 					
 					}
 				
-					else if(token==2) {//음식, 월드컵 형태
+					else if(token==2) {//����, ������ ����
 						System.out.println();
 						System.out.println("Select");
 						System.out.println("-----------------");
-						System.out.println("1. 향토음식");
-						System.out.println("2. 일반적인");
+						System.out.println("1. ��������");
+						System.out.println("2. �Ϲ�����");
 						System.out.println("-----------------");
 			            ArrayList<String> candidate_menu = new ArrayList<>();
 						int token2 = scan.nextInt();
 						
 						if(token2==1) 
 						{
-							//향토음
+							//������
 							sql = "select distinct menu from nativefood;";
 				            ps = conn.prepareStatement(sql);
 				            rs = ps.executeQuery();
@@ -284,14 +272,14 @@ public class JEJU {
 				            }
 				            
 			
-				            Collections.shuffle(candidate_menu); //Array요소들 셔플 
+				            Collections.shuffle(candidate_menu); //Array��ҵ� ���� 
 				            
 				          
 				            
 						}
 						else if(token2==2) 
 						{
-							//일반음식
+							//�Ϲ�����
 							sql = "select distinct menu from ordinaryfood;";
 							ps = conn.prepareStatement(sql);
 				            rs = ps.executeQuery();
@@ -332,10 +320,10 @@ public class JEJU {
 				                	}
 				                }
 				            }
-				            Collections.shuffle(candidate_menu); //Array요소들 셔플   
+				            Collections.shuffle(candidate_menu); //Array��ҵ� ����   
 						}
 						
-						//candidate_menu에 다 넣었고, 이제 앞에서 16개뽑아서 d드컵시작
+						//candidate_menu�� �� �־���, ���� �տ��� 16���̾Ƽ� �d���Ž���
 						String[] round1 = new String[16];
 						String[] round2 = new String[8];
 						String[] round3 = new String[4];
@@ -348,7 +336,7 @@ public class JEJU {
 						
 						int k = 15;
 						System.out.println("-----------------");
-						System.out.println("       16강      ");
+						System.out.println("       16��      ");
 						System.out.println("-----------------");
 						for(int i=0; i<8; i++)
 						{
@@ -358,12 +346,12 @@ public class JEJU {
 							System.out.println("2. " + round1[k]);
 							if(scan.nextInt() == 1)
 							{
-								System.out.println(round1[i] + " 승리!");
+								System.out.println(round1[i] + " �¸�!");
 								round2[i] = round1[i];
 							}
 							else
 							{
-								System.out.println(round1[k] + " 승리!");
+								System.out.println(round1[k] + " �¸�!");
 								round2[i] = round1[k];
 							}
 							k--;
@@ -372,7 +360,7 @@ public class JEJU {
 						System.out.println();
 						System.out.println();
 						System.out.println("-----------------");
-						System.out.println("       8강      ");
+						System.out.println("       8��      ");
 						System.out.println("-----------------");
 						k = 7;
 						for(int i=0; i<4; i++)
@@ -383,12 +371,12 @@ public class JEJU {
 							System.out.println("2. " + round2[k]);
 							if(scan.nextInt() == 1)
 							{
-								System.out.println(round2[i] + " 승리!");
+								System.out.println(round2[i] + " �¸�!");
 								round3[i] = round2[i];
 							}
 							else
 							{
-								System.out.println(round2[k] + " 승리!");
+								System.out.println(round2[k] + " �¸�!");
 								round3[i] = round2[k];
 							}
 							k--;
@@ -397,7 +385,7 @@ public class JEJU {
 						System.out.println();
 						System.out.println();
 						System.out.println("-----------------");
-						System.out.println("       4강      ");
+						System.out.println("       4��      ");
 						System.out.println("-----------------");
 						k = 3;
 						for(int i=0; i<2; i++)
@@ -408,12 +396,12 @@ public class JEJU {
 							System.out.println("2. " + round3[k]);
 							if(scan.nextInt() == 1)
 							{
-								System.out.println(round3[i] + " 승리!");
+								System.out.println(round3[i] + " �¸�!");
 								round4[i] = round3[i];
 							}
 							else
 							{
-								System.out.println(round2[k] + " 승리!");
+								System.out.println(round2[k] + " �¸�!");
 								round4[i] = round3[k];
 							}
 							k--;
@@ -422,7 +410,7 @@ public class JEJU {
 						System.out.println();
 						System.out.println();
 						System.out.println("-----------------");
-						System.out.println("       결승      ");
+						System.out.println("       ���      ");
 						System.out.println("-----------------");
 						k = 1;
 						
@@ -432,62 +420,62 @@ public class JEJU {
 						System.out.println("2. " + round4[1]);
 						if(scan.nextInt() == 1)
 						{
-							System.out.println(round4[0] + " 승리!");
+							System.out.println(round4[0] + " �¸�!");
 							winner= round4[0];
 						}
 						else
 						{
-							System.out.println(round2[k] + " 승리!");
+							System.out.println(round2[k] + " �¸�!");
 							winner = round4[1];
 						}
 						
 						System.out.println();
 						System.out.println("-----------------");
-						System.out.println("   최종우승" + winner);
+						System.out.println("   �������" + winner);
 						System.out.println("-----------------");
 						
 						System.out.println();
 						System.out.println();
 						System.out.println("---------------------------------------------------------------------------------------------------------------------------");
 						System.out.println();
-						System.out.println(winner + " 판매업소");
+						System.out.println(winner + " �Ǹž���");
 						String tableName = "ordinaryfood";
-						if(token2==1) //winner가 포함된 nativefood table정보를보여준다 
+						if(token2==1) //winner�� ���Ե� nativefood table�����������ش� 
 						{
 							if(Direction.equals("N"))
 							{
-								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%애월%' or loc LIKE '%조천%');";
+								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%�ֿ�%' or loc LIKE '%��õ%');";
 							}
 							else if(Direction.equals("E"))
 							{
-								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%성산%' or loc LIKE '%구좌%');";
+								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%����%' or loc LIKE '%����%');";
 							}
 							else if(Direction.equals("W"))
 							{
-								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%한경%' or loc LIKE '%한림%' or loc LIKE '%대정%');";
+								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%�Ѱ�%' or loc LIKE '%�Ѹ�%' or loc LIKE '%����%');";
 							}
 							else
 							{
-								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%안덕%' or loc LIKE '%표선%' or loc LIKE '%남원%');";
+								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%�ȴ�%' or loc LIKE '%ǥ��%' or loc LIKE '%����%');";
 							}
 						}
 						else
 						{
 							if(Direction.equals("N"))
 							{
-								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%애월%' or loc LIKE '%조천%');";
+								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%�ֿ�%' or loc LIKE '%��õ%');";
 							}
 							else if(Direction.equals("E"))
 							{
-								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%성산%' or loc LIKE '%구좌%');";
+								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%����%' or loc LIKE '%����%');";
 							}
 							else if(Direction.equals("W"))
 							{
-								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%한경%' or loc LIKE '%한림%' or loc LIKE '%대정%');";
+								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%�Ѱ�%' or loc LIKE '%�Ѹ�%' or loc LIKE '%����%');";
 							}
 							else
 							{
-								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%안덕%' or loc LIKE '%표선%' or loc LIKE '%남원%');";
+								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%�ȴ�%' or loc LIKE '%ǥ��%' or loc LIKE '%����%');";
 							}
 		
 						}
@@ -503,114 +491,114 @@ public class JEJU {
 						}
 						System.out.println("---------------------------------------------------------------------------------------------------------------------------");
 						System.out.println();
-						System.out.println("초기화면으로돌아갑니다 ");
+						System.out.println("�ʱ�ȭ�����ε��ư��ϴ� ");
 						System.out.println();
 						scan.nextLine();
 					}
 				
-					else if(token==3) {//관광지 질
+					else if(token==3) {//������ ��
 						String first = "";
 						String select = "";
 						System.out.println();
 						System.out.println("Select 1 or 2");
 						System.out.println("-----------------");
-						System.out.println("1. 활동적인 ");
-						System.out.println("2. 잔잔한 ");
-						System.out.println("3. 올레길 ");
-						System.out.println("4. 카페투어 ");
+						System.out.println("1. Ȱ������ ");
+						System.out.println("2. ������ ");
+						System.out.println("3. �÷��� ");
+						System.out.println("4. ī������ ");
 						System.out.println("-----------------");
 					
 						int token1 = scan.nextInt();
 						System.out.println();
 						if(token1==1) {
-							System.out.println("Selected '활동적인'");
-							first ="  활동적인 ";
+							System.out.println("Selected 'Ȱ������'");
+							first ="  Ȱ������ ";
 							select= select + Integer.toString(token1);
 							
 							System.out.println();
 							System.out.println("-----------------");
-							System.out.println("1. 바다 ");
-							System.out.println("2. 산 ");
+							System.out.println("1. �ٴ� ");
+							System.out.println("2. �� ");
 							System.out.println("-----------------");
 							int token11 = scan.nextInt();
 							
 							if(token11 == 1) {
-								System.out.println("Select '바다'");
-								first = first + "  바다 ";
+								System.out.println("Select '�ٴ�'");
+								first = first + "  �ٴ� ";
 								select = select + Integer.toString(token11);
 								
 							}else if(token11 == 2) {
-								System.out.println("Select '산'");
-								first = first + "  산 ";
+								System.out.println("Select '��'");
+								first = first + "  �� ";
 								select = select + Integer.toString(token11);
 								
 								System.out.println();
 								System.out.println("-----------------");
-								System.out.println("1. 승마 ");
-								System.out.println("2. 오름 ");
+								System.out.println("1. �¸� ");
+								System.out.println("2. ���� ");
 								System.out.println("-----------------");
 								int token111 = scan.nextInt();
 								
 								if(token111 == 1) {
-									System.out.println("Selected '승마'");
-									first = first + "  승마 ";
+									System.out.println("Selected '�¸�'");
+									first = first + "  �¸� ";
 									select = select + Integer.toString(token111);
 								}else if(token111 == 2) {
-									System.out.println("Selected '오름'");
-									first = first + "  오름 ";
+									System.out.println("Selected '����'");
+									first = first + "  ���� ";
 									select = select + Integer.toString(token111);
 								}
 							}
 						}
 						else if(token1==2) {
-							System.out.println("Select '잔잔한'");
-							first ="  잔잔한 ";
+							System.out.println("Select '������'");
+							first ="  ������ ";
 							select = select + Integer.toString(token1);
 							
 							System.out.println();
 							System.out.println("-----------------");
-							System.out.println("1. 바다 ");
-							System.out.println("2. 산 ");
-							System.out.println("3. 기타 ");
+							System.out.println("1. �ٴ� ");
+							System.out.println("2. �� ");
+							System.out.println("3. ��Ÿ ");
 							System.out.println("-----------------");
 							int token11 = scan.nextInt();
 							
 							if(token11 == 1) {
-								System.out.println("Select '바다'");
-								first = first + "  바다 ";
+								System.out.println("Select '�ٴ�'");
+								first = first + "  �ٴ� ";
 								select = select + Integer.toString(token11);
 					
 							}else if(token11 == 2) {
-								System.out.println("Select '산'");
-								first = first +  "  산 ";
+								System.out.println("Select '��'");
+								first = first +  "  �� ";
 								select = select + Integer.toString(token11);
 								
 								System.out.println();
 								System.out.println("-----------------");
-								System.out.println("1. 식물원 ");
-								System.out.println("2. 관광농원 ");
-								System.out.println("3. 숲길 ");
+								System.out.println("1. �Ĺ��� ");
+								System.out.println("2. ������� ");
+								System.out.println("3. ���� ");
 								System.out.println("-----------------");
 								int token111 = scan.nextInt();
 								
 								if(token111 == 1) {
-									System.out.println("Select '식물원'");
-									first = first + "  식물원 ";
+									System.out.println("Select '�Ĺ���'");
+									first = first + "  �Ĺ��� ";
 									select = select + Integer.toString(token111);
 								}else if(token111 == 2) {
-									System.out.println("Select '관광농원'");
-									first = first + "  관광농원 ";
+									System.out.println("Select '�������'");
+									first = first + "  ������� ";
 									select = select + Integer.toString(token111);
 								}
 							}else if(token11 == 3) {
-								System.out.println("Select '기타'");
-								first = first +  "  기타 ";
+								System.out.println("Select '��Ÿ'");
+								first = first +  "  ��Ÿ ";
 								select = select + Integer.toString(token11);
 							}
 						}
 						else if(token1==4) {
-							System.out.println("Select '카페투어'");
-							first ="  카페투어 ";
+							System.out.println("Select 'ī������'");
+							first ="  ī������ ";
 							select = select + Integer.toString(token1);
 						}
 						
@@ -620,7 +608,7 @@ public class JEJU {
 
 						System.out.println(select);
 						System.out.println();
-						System.out.println("---------------결과----------------");
+						System.out.println("---------------���----------------");
 						System.out.println(first);
 						sql = "select direction from host where uid = "+ uID +"::varchar"+";";
 						String direction = Methods.user_dir(statement, sql);
@@ -632,28 +620,28 @@ public class JEJU {
 					else if(token==4) {
 						System.out.println("Select");
 						System.out.println("-----------------");
-						System.out.println("1. Most selected in 음식");
-						System.out.println("2. Most selected in 관광");
-						System.out.println("2. Most selected in 숙박");
+						System.out.println("1. Most selected in ����");
+						System.out.println("2. Most selected in ����");
+						System.out.println("2. Most selected in ����");
 						System.out.println("-----------------");
 					
 						int token4 = scan.nextInt();
 						if(token4==1) {
-							System.out.println("ID : 131님이 설정한 남/20대/제주도 동부 에서의 가장 인기있는 음식은");
-							System.out.println("카테고리 : 향토음식, 음식:접짝뼈국");
-							System.out.println("식당");
-							System.out.println("이름 : ~~~~ / 주소:~~~~ /  영업시간:~~~");
-							System.out.println("이름 : ~~~~ / 주소:~~~~ /  영업시간:~~~");
-							System.out.println("이름 : ~~~~ / 주소:~~~~ /  영업시간:~~~");
+							System.out.println("ID : 131���� ������ ��/20��/���ֵ� ���� ������ ���� �α��ִ� ������");
+							System.out.println("ī�װ� : ��������, ����:��¦����");
+							System.out.println("�Ĵ�");
+							System.out.println("�̸� : ~~~~ / �ּ�:~~~~ /  �����ð�:~~~");
+							System.out.println("�̸� : ~~~~ / �ּ�:~~~~ /  �����ð�:~~~");
+							System.out.println("�̸� : ~~~~ / �ּ�:~~~~ /  �����ð�:~~~");
 						
 						}
 						else if(token4==2) {
-							System.out.println("ID : ~~~님이 설정한 남/20대/제주도 동부 에서의 가장 인기있는 관광지는");
-							System.out.println("카테고리: ~~~-~~~-~~~ 관광지명 : ~~~~~~~~~~");
+							System.out.println("ID : ~~~���� ������ ��/20��/���ֵ� ���� ������ ���� �α��ִ� ��������");
+							System.out.println("ī�װ�: ~~~-~~~-~~~ �������� : ~~~~~~~~~~");
 						}
 						else if(token4==3) {
-							System.out.println("ID : ~~~님이 설정한 남/20대/제주도 동부 에서의 가장 인기있는 숙박형태는");
-							System.out.println("카테고리: ~~~-~~~-~~~ 숙박 : ~~~~~~~~~~");
+							System.out.println("ID : ~~~���� ������ ��/20��/���ֵ� ���� ������ ���� �α��ִ� �������´�");
+							System.out.println("ī�װ�: ~~~-~~~-~~~ ���� : ~~~~~~~~~~");
 						}
 					
 				
@@ -665,50 +653,50 @@ public class JEJU {
 					
 				
 				}
-				else if(bit.contains("3")) 	//bit3은exit
+				else if(bit.contains("3")) 	//bit3��exit
 				{
 					return;
 				
 				}
-				else if(bit.contains("4")) //bit4는 관리자모
+				else if(bit.contains("4")) //bit4�� �����ڸ�
 			      {
 			         System.out.println();
-			         System.out.println("관리자모드 ");
+			         System.out.println("�����ڸ�� ");
 			         System.out.println("-----------------");
-			         System.out.println("1. 데이터관리");
-			         System.out.println("2. 회원관리");
+			         System.out.println("1. �����Ͱ���");
+			         System.out.println("2. ȸ������");
 			         System.out.println("-----------------");
 			         String bit2 = scan.nextLine();
 			         if(bit2.contains("1"))
 			         {
 			            System.out.println();
-			            System.out.println("데이터관리 ");
+			            System.out.println("�����Ͱ��� ");
 			            String bit3 = scan.nextLine();
 			            if(bit3.contains("1"))
 			            {
 			               System.out.println();
-			               System.out.println("데이터추가");
+			               System.out.println("�������߰�");
 			            }
 			            else if(bit3.contains("2"))
 			            {
 			               System.out.println();
-			               System.out.println("데이터삭제");
+			               System.out.println("�����ͻ���");
 			            }
 			            
 			         }
-			         else if(bit2.contains("2"))//회원관리
+			         else if(bit2.contains("2"))//ȸ������
 			         {
 			            System.out.println();
-			            System.out.println("회원관리 ");
+			            System.out.println("ȸ������ ");
 			            System.out.println("-----------------");
-			            System.out.println("1. 전체 사용자 확인");
-			            System.out.println("2. 사용자 삭제");
-			            System.out.println("2. 사용자 수정");
+			            System.out.println("1. ��ü ����� Ȯ��");
+			            System.out.println("2. ����� ����");
+			            System.out.println("2. ����� ����");
 			            System.out.println("-----------------");
 			            String bit3 = scan.nextLine();
 			            String uID, upwd, sex,age, dir;
 			            
-			            if(bit3.contains("1")) {//전체 사용자 확인
+			            if(bit3.contains("1")) {//��ü ����� Ȯ��
 			               sql="select * from host;";
 			               ps = conn.prepareStatement(sql);
 			               rs = ps.executeQuery();
@@ -728,9 +716,9 @@ public class JEJU {
 			               System.out.println("-----------------------------------------------------");
 			               index=1;
 			            }
-			            else if(bit3.contains("2")) { // 사용자 삭제
+			            else if(bit3.contains("2")) { // ����� ����
 			               System.out.println("-----------------------------------------------------");
-			               System.out.println("삭제할 사용자 ID : ");
+			               System.out.println("������ ����� ID : ");
 			               String del_uID = scan.nextLine();
 			               sql = "select * from host where uID = ?;";
 			               ps = conn.prepareStatement(sql);
@@ -753,7 +741,7 @@ public class JEJU {
 			               System.out.println("-----------------------------------------------------");
 			               index=1;
 			               
-			               System.out.println("다음 사용자를 삭제하시겠습니까? (y/n)");
+			               System.out.println("���� ����ڸ� �����Ͻðڽ��ϱ�? (y/n)");
 			               String bit4 = scan.nextLine();
 			               if(bit4.contains("y")){
 			                  sql = "delete from host where uID = ?;";
@@ -761,10 +749,10 @@ public class JEJU {
 			                    ps.clearParameters();
 			                    ps.setString(1,del_uID);
 			                    rs = ps.executeQuery();
-			                    System.out.println("삭제가 완료되었습니다.");
+			                    System.out.println("������ �Ϸ�Ǿ����ϴ�.");
 			               }
 			               else {
-			                  System.out.println("취소");
+			                  System.out.println("���");
 			               }
 			               
 			            }

@@ -27,8 +27,8 @@ import java.util.Scanner;
 public class JEJU {
 	
 	private static String url = "jdbc:postgresql://localhost:5432/postgres";
-	private static String user = "unlimit13";
-	private static String password = "1q2w3e4r!";
+	private static String user = "postgres";
+	private static String password = "inter7477";
 	
 
 	public static void main(String args[]) throws SQLException, IOException {
@@ -43,7 +43,7 @@ public class JEJU {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
-			conn = DriverManager.getConnection(url, user, password );
+			conn = DriverManager.getConnection(JEJU.url, JEJU.user, JEJU.password );
 			sql = "create table if not exists host(uID varchar(20), pwd varchar(20), sex char(2), age int, direction char(2));";
 			ps = conn.prepareStatement(sql);
 			result = ps.executeUpdate();
@@ -56,6 +56,7 @@ public class JEJU {
 				System.out.println("1. sign up");
 				System.out.println("2. sign in");
 				System.out.println("3. Exit");
+				System.out.println("4. admin");
 				System.out.println("-----------------");
 				String Direction = "";
 				String bit = scan.nextLine(); 
@@ -106,20 +107,6 @@ public class JEJU {
 					String uID = scan.nextLine();
 					System.out.print("PW : ");
 					String PWD = scan.nextLine();
-					sql = "select count(*) from host where uID = ?;";
-					ps = conn.prepareStatement(sql);
-					ps.clearParameters();
-				    ps.setString(1,uID);
-					rs = ps.executeQuery();
-					rs.next();
-					
-					int count = rs.getInt(1);
-					if(count < 1)
-					{
-						System.out.println("가입하지 않은 사용자입니다");
-						System.out.println();
-						continue;
-					}
 					sql = "select pwd from host where uID = ?;";
 					ps = conn.prepareStatement(sql);
 					ps.clearParameters();

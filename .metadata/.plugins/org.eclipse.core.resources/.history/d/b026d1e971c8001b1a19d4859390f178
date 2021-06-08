@@ -106,20 +106,6 @@ public class JEJU {
 					String uID = scan.nextLine();
 					System.out.print("PW : ");
 					String PWD = scan.nextLine();
-					sql = "select count(*) from host where uID = ?;";
-					ps = conn.prepareStatement(sql);
-					ps.clearParameters();
-				    ps.setString(1,uID);
-					rs = ps.executeQuery();
-					rs.next();
-					
-					int count = rs.getInt(1);
-					if(count < 1)
-					{
-						System.out.println("가입하지 않은 사용자입니다");
-						System.out.println();
-						continue;
-					}
 					sql = "select pwd from host where uID = ?;";
 					ps = conn.prepareStatement(sql);
 					ps.clearParameters();

@@ -24,11 +24,11 @@ import java.util.Collections;
 import java.util.Scanner;
 
 
-public class JEJU {
+public class Db {
 	
 	private static String url = "jdbc:postgresql://localhost:5432/postgres";
-	private static String user = "unlimit13";
-	private static String password = "1q2w3e4r!";
+	private static String user = "postgres";
+	private static String password = "inter7477";
 	
 
 	public static void main(String args[]) throws SQLException, IOException {
@@ -43,12 +43,12 @@ public class JEJU {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
-			conn = DriverManager.getConnection(url, user, password );
+			conn = DriverManager.getConnection(Db.url, Db.user, Db.password );
 			sql = "create table if not exists host(uID varchar(20), pwd varchar(20), sex char(2), age int, direction char(2));";
 			ps = conn.prepareStatement(sql);
 			result = ps.executeUpdate();
 			Statement statement = conn.createStatement();
-			//total_attraction(statement); //(total attraction í…Œì´ë¸” ìƒì„±í›„ attraction ëª¨ë‘ í•©ì¹¨)
+			//total_attraction(statement); //(total attraction Å×ÀÌºí »ı¼ºÈÄ attraction ¸ğµÎ ÇÕÄ§)
 			
 			while(true) 
 			{	
@@ -56,12 +56,13 @@ public class JEJU {
 				System.out.println("1. sign up");
 				System.out.println("2. sign in");
 				System.out.println("3. Exit");
+				System.out.println("4. admin");
 				System.out.println("-----------------");
 				String Direction = "";
 				String bit = scan.nextLine(); 
 
 				
-				if(bit.contains("1")) { 	//bit1ì€ sign up
+				if(bit.contains("1")) { 	//bit1Àº sign up
 					System.out.println();
 					System.out.println("-----------------");
 					System.out.print("ID : ");
@@ -100,26 +101,12 @@ public class JEJU {
 				}
 			
 				else if(bit.contains("2")) 
-				{ 	//bit1ì€ sign in
+				{ 	//bit1Àº sign in
 					System.out.println();
 					System.out.print("ID : ");
 					String uID = scan.nextLine();
 					System.out.print("PW : ");
 					String PWD = scan.nextLine();
-					sql = "select count(*) from host where uID = ?;";
-					ps = conn.prepareStatement(sql);
-					ps.clearParameters();
-				    ps.setString(1,uID);
-					rs = ps.executeQuery();
-					rs.next();
-					
-					int count = rs.getInt(1);
-					if(count < 1)
-					{
-						System.out.println("ê°€ì…í•˜ì§€ ì•Šì€ ì‚¬ìš©ìì…ë‹ˆë‹¤");
-						System.out.println();
-						continue;
-					}
 					sql = "select pwd from host where uID = ?;";
 					ps = conn.prepareStatement(sql);
 					ps.clearParameters();
@@ -129,7 +116,7 @@ public class JEJU {
 					rs.next();
 					String PWD_in_table = rs.getString(1);
 				
-					if(!PWD.equals(PWD_in_table)) //ë¹„ë°€ë²ˆí˜¸ ì…ë ¥ì´ í‹€ë¦¬ë©´,
+					if(!PWD.equals(PWD_in_table)) //ºñ¹Ğ¹øÈ£ ÀÔ·ÂÀÌ Æ²¸®¸é,
 					{
 						System.out.println("Password is incorrect\n");
 		
@@ -139,16 +126,16 @@ public class JEJU {
 					System.out.println();
 					System.out.println("Welcome!\n");
 					System.out.println("-----------------");
-					System.out.println("1. ìˆ™ë°•");
-					System.out.println("2. ì‹ë‹¹");
-					System.out.println("3. ê´€ê´‘");
-					System.out.println("4. ìˆœìœ„í™•ì¸");
+					System.out.println("1. ¼÷¹Ú");
+					System.out.println("2. ½Ä´ç");
+					System.out.println("3. °ü±¤");
+					System.out.println("4. ¼øÀ§È®ÀÎ");
 					System.out.println("5. exit");
 					System.out.println("-----------------");
 				
 					int token = scan.nextInt();
 					
-					if(token==1) {//ìˆ™ë°•, ì§ˆë¬¸í˜•íƒœ
+					if(token==1) {//¼÷¹Ú, Áú¹®ÇüÅÂ
 						String first = "";
 						String second = "";
 						String third = "";
@@ -156,42 +143,42 @@ public class JEJU {
 						System.out.println();
 						System.out.println("Select 1 or 2");
 						System.out.println("-----------------");
-						System.out.println("1. ì œì£¼ìŠ¤ëŸ¬ìš´");
-						System.out.println("2. ëŸ­ì…”ë¦¬í•œ");
+						System.out.println("1. Á¦ÁÖ½º·¯¿î");
+						System.out.println("2. ·°¼Å¸®ÇÑ");
 						System.out.println("-----------------");
 					
 						int token1 = scan.nextInt();
 						System.out.println();
 						if(token1==1) {
-							System.out.println("Selected 'ì œì£¼ìŠ¤ëŸ¬ìš´'");
-							first ="ì œì£¼ìŠ¤ëŸ¬ìš´";
+							System.out.println("Selected 'Á¦ÁÖ½º·¯¿î'");
+							first ="Á¦ÁÖ½º·¯¿î";
 						}
 						else if(token1==2) {
-							System.out.println("Select 'ëŸ­ì…”ë¦¬í•œ'");
-							first ="ëŸ­ì…”ë¦¬í•œ";
+							System.out.println("Select '·°¼Å¸®ÇÑ'");
+							first ="·°¼Å¸®ÇÑ";
 						}
 					
 						System.out.println();
 						System.out.println("-----------------");
-						System.out.println("1. ë…ì±„ ");
-						System.out.println("2. ë‹¤ì„¸ëŒ€ ");
+						System.out.println("1. µ¶Ã¤ ");
+						System.out.println("2. ´Ù¼¼´ë ");
 						System.out.println("-----------------");
 						int token11 = scan.nextInt();
 						System.out.println();
 						if(token11 == 1) {
-							System.out.println("Select 'ë…ì±„' ");
-							second = "ë…ì±„ ";
+							System.out.println("Select 'µ¶Ã¤' ");
+							second = "µ¶Ã¤ ";
 						}
 						if(token11 == 2) {
-							System.out.println("Select 'ë‹¤ì„¸ëŒ€'");
-							second = "ë‹¤ì„¸ëŒ€ ";
+							System.out.println("Select '´Ù¼¼´ë'");
+							second = "´Ù¼¼´ë ";
 						}
 					
 						scan.nextLine();
 						System.out.println();
 						System.out.println("-----------------");
-						System.out.println("1. ë„ì‹¬");
-						System.out.println("2. í•œì í•œ");
+						System.out.println("1. µµ½É");
+						System.out.println("2. ÇÑÀûÇÑ");
 						System.out.println("-----------------");
 					
 					
@@ -204,45 +191,45 @@ public class JEJU {
 							token111 = 2;
 						System.out.println();
 						if(token111 == 1) {
-							System.out.println("Select 'ë„ì‹¬' ");
-							third = "ë„ì‹¬ ";
+							System.out.println("Select 'µµ½É' ");
+							third = "µµ½É ";
 						}
 						if(token111 == 2) {
-							System.out.println("Select 'í•œì í•œ'");
-							third = "í•œì í•œ ";
+							System.out.println("Select 'ÇÑÀûÇÑ'");
+							third = "ÇÑÀûÇÑ ";
 						}
 					
 						String select = String.valueOf(token1).concat(String.valueOf(token11));
 						select = select.concat(String.valueOf(token111));
-					//selectëŠ” 111~222
+					//select´Â 111~222
 					
 						statement = conn.createStatement();
 						sql = "select direction from host where uid = "+ uID +"::varchar"+";";
-						String direction = Methods.user_dir(statement, sql);
+						String direction = user_dir(statement, sql);
 						
 						
 						System.out.println(select);
 						System.out.println();
-						System.out.println("---------------ê²°ê³¼----------------");
-						System.out.println("ì„ íƒëœ " + first + " , " + second +  " , " + third);
-						Methods.lodg(statement, direction, select, uID);
+						System.out.println("---------------°á°ú----------------");
+						System.out.println("¼±ÅÃµÈ " + first + " , " + second +  " , " + third);
+						lodg(statement, direction, select, uID);
 						System.out.println();
 					
 					}
 				
-					else if(token==2) {//ìŒì‹, ì›”ë“œì»µ í˜•íƒœ
+					else if(token==2) {//À½½Ä, ¿ùµåÄÅ ÇüÅÂ
 						System.out.println();
 						System.out.println("Select");
 						System.out.println("-----------------");
-						System.out.println("1. í–¥í† ìŒì‹");
-						System.out.println("2. ì¼ë°˜ì ì¸");
+						System.out.println("1. ÇâÅäÀ½½Ä");
+						System.out.println("2. ÀÏ¹İÀûÀÎ");
 						System.out.println("-----------------");
 			            ArrayList<String> candidate_menu = new ArrayList<>();
 						int token2 = scan.nextInt();
 						
 						if(token2==1) 
 						{
-							//í–¥í† ìŒ
+							//ÇâÅäÀ½
 							sql = "select distinct menu from nativefood;";
 				            ps = conn.prepareStatement(sql);
 				            rs = ps.executeQuery();
@@ -284,14 +271,14 @@ public class JEJU {
 				            }
 				            
 			
-				            Collections.shuffle(candidate_menu); //Arrayìš”ì†Œë“¤ ì…”í”Œ 
+				            Collections.shuffle(candidate_menu); //Array¿ä¼Òµé ¼ÅÇÃ 
 				            
 				          
 				            
 						}
 						else if(token2==2) 
 						{
-							//ì¼ë°˜ìŒì‹
+							//ÀÏ¹İÀ½½Ä
 							sql = "select distinct menu from ordinaryfood;";
 							ps = conn.prepareStatement(sql);
 				            rs = ps.executeQuery();
@@ -332,10 +319,10 @@ public class JEJU {
 				                	}
 				                }
 				            }
-				            Collections.shuffle(candidate_menu); //Arrayìš”ì†Œë“¤ ì…”í”Œ   
+				            Collections.shuffle(candidate_menu); //Array¿ä¼Òµé ¼ÅÇÃ   
 						}
 						
-						//candidate_menuì— ë‹¤ ë„£ì—ˆê³ , ì´ì œ ì•ì—ì„œ 16ê°œë½‘ì•„ì„œ ÂŸdë“œì»µì‹œì‘
+						//candidate_menu¿¡ ´Ù ³Ö¾ú°í, ÀÌÁ¦ ¾Õ¿¡¼­ 16°³»Ì¾Æ¼­ ŸdµåÄÅ½ÃÀÛ
 						String[] round1 = new String[16];
 						String[] round2 = new String[8];
 						String[] round3 = new String[4];
@@ -348,7 +335,7 @@ public class JEJU {
 						
 						int k = 15;
 						System.out.println("-----------------");
-						System.out.println("       16ê°•      ");
+						System.out.println("       16°­      ");
 						System.out.println("-----------------");
 						for(int i=0; i<8; i++)
 						{
@@ -358,12 +345,12 @@ public class JEJU {
 							System.out.println("2. " + round1[k]);
 							if(scan.nextInt() == 1)
 							{
-								System.out.println(round1[i] + " ìŠ¹ë¦¬!");
+								System.out.println(round1[i] + " ½Â¸®!");
 								round2[i] = round1[i];
 							}
 							else
 							{
-								System.out.println(round1[k] + " ìŠ¹ë¦¬!");
+								System.out.println(round1[k] + " ½Â¸®!");
 								round2[i] = round1[k];
 							}
 							k--;
@@ -372,7 +359,7 @@ public class JEJU {
 						System.out.println();
 						System.out.println();
 						System.out.println("-----------------");
-						System.out.println("       8ê°•      ");
+						System.out.println("       8°­      ");
 						System.out.println("-----------------");
 						k = 7;
 						for(int i=0; i<4; i++)
@@ -383,12 +370,12 @@ public class JEJU {
 							System.out.println("2. " + round2[k]);
 							if(scan.nextInt() == 1)
 							{
-								System.out.println(round2[i] + " ìŠ¹ë¦¬!");
+								System.out.println(round2[i] + " ½Â¸®!");
 								round3[i] = round2[i];
 							}
 							else
 							{
-								System.out.println(round2[k] + " ìŠ¹ë¦¬!");
+								System.out.println(round2[k] + " ½Â¸®!");
 								round3[i] = round2[k];
 							}
 							k--;
@@ -397,7 +384,7 @@ public class JEJU {
 						System.out.println();
 						System.out.println();
 						System.out.println("-----------------");
-						System.out.println("       4ê°•      ");
+						System.out.println("       4°­      ");
 						System.out.println("-----------------");
 						k = 3;
 						for(int i=0; i<2; i++)
@@ -408,12 +395,12 @@ public class JEJU {
 							System.out.println("2. " + round3[k]);
 							if(scan.nextInt() == 1)
 							{
-								System.out.println(round3[i] + " ìŠ¹ë¦¬!");
+								System.out.println(round3[i] + " ½Â¸®!");
 								round4[i] = round3[i];
 							}
 							else
 							{
-								System.out.println(round2[k] + " ìŠ¹ë¦¬!");
+								System.out.println(round2[k] + " ½Â¸®!");
 								round4[i] = round3[k];
 							}
 							k--;
@@ -422,7 +409,7 @@ public class JEJU {
 						System.out.println();
 						System.out.println();
 						System.out.println("-----------------");
-						System.out.println("       ê²°ìŠ¹      ");
+						System.out.println("       °á½Â      ");
 						System.out.println("-----------------");
 						k = 1;
 						
@@ -432,62 +419,62 @@ public class JEJU {
 						System.out.println("2. " + round4[1]);
 						if(scan.nextInt() == 1)
 						{
-							System.out.println(round4[0] + " ìŠ¹ë¦¬!");
+							System.out.println(round4[0] + " ½Â¸®!");
 							winner= round4[0];
 						}
 						else
 						{
-							System.out.println(round2[k] + " ìŠ¹ë¦¬!");
+							System.out.println(round2[k] + " ½Â¸®!");
 							winner = round4[1];
 						}
 						
 						System.out.println();
 						System.out.println("-----------------");
-						System.out.println("   ìµœì¢…ìš°ìŠ¹" + winner);
+						System.out.println("   ÃÖÁ¾¿ì½Â" + winner);
 						System.out.println("-----------------");
 						
 						System.out.println();
 						System.out.println();
 						System.out.println("---------------------------------------------------------------------------------------------------------------------------");
 						System.out.println();
-						System.out.println(winner + " íŒë§¤ì—…ì†Œ");
+						System.out.println(winner + " ÆÇ¸Å¾÷¼Ò");
 						String tableName = "ordinaryfood";
-						if(token2==1) //winnerê°€ í¬í•¨ëœ nativefood tableì •ë³´ë¥¼ë³´ì—¬ì¤€ë‹¤ 
+						if(token2==1) //winner°¡ Æ÷ÇÔµÈ nativefood tableÁ¤º¸¸¦º¸¿©ÁØ´Ù 
 						{
 							if(Direction.equals("N"))
 							{
-								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%ì• ì›”%' or loc LIKE '%ì¡°ì²œ%');";
+								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%¾Ö¿ù%' or loc LIKE '%Á¶Ãµ%');";
 							}
 							else if(Direction.equals("E"))
 							{
-								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%ì„±ì‚°%' or loc LIKE '%êµ¬ì¢Œ%');";
+								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%¼º»ê%' or loc LIKE '%±¸ÁÂ%');";
 							}
 							else if(Direction.equals("W"))
 							{
-								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%í•œê²½%' or loc LIKE '%í•œë¦¼%' or loc LIKE '%ëŒ€ì •%');";
+								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%ÇÑ°æ%' or loc LIKE '%ÇÑ¸²%' or loc LIKE '%´ëÁ¤%');";
 							}
 							else
 							{
-								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%ì•ˆë•%' or loc LIKE '%í‘œì„ %' or loc LIKE '%ë‚¨ì›%');";
+								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%¾È´ö%' or loc LIKE '%Ç¥¼±%' or loc LIKE '%³²¿ø%');";
 							}
 						}
 						else
 						{
 							if(Direction.equals("N"))
 							{
-								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%ì• ì›”%' or loc LIKE '%ì¡°ì²œ%');";
+								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%¾Ö¿ù%' or loc LIKE '%Á¶Ãµ%');";
 							}
 							else if(Direction.equals("E"))
 							{
-								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%ì„±ì‚°%' or loc LIKE '%êµ¬ì¢Œ%');";
+								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%¼º»ê%' or loc LIKE '%±¸ÁÂ%');";
 							}
 							else if(Direction.equals("W"))
 							{
-								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%í•œê²½%' or loc LIKE '%í•œë¦¼%' or loc LIKE '%ëŒ€ì •%');";
+								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%ÇÑ°æ%' or loc LIKE '%ÇÑ¸²%' or loc LIKE '%´ëÁ¤%');";
 							}
 							else
 							{
-								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%ì•ˆë•%' or loc LIKE '%í‘œì„ %' or loc LIKE '%ë‚¨ì›%');";
+								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%¾È´ö%' or loc LIKE '%Ç¥¼±%' or loc LIKE '%³²¿ø%');";
 							}
 		
 						}
@@ -503,114 +490,114 @@ public class JEJU {
 						}
 						System.out.println("---------------------------------------------------------------------------------------------------------------------------");
 						System.out.println();
-						System.out.println("ì´ˆê¸°í™”ë©´ìœ¼ë¡œëŒì•„ê°‘ë‹ˆë‹¤ ");
+						System.out.println("ÃÊ±âÈ­¸éÀ¸·Îµ¹¾Æ°©´Ï´Ù ");
 						System.out.println();
 						scan.nextLine();
 					}
 				
-					else if(token==3) {//ê´€ê´‘ì§€ ì§ˆ
+					else if(token==3) {//°ü±¤Áö Áú
 						String first = "";
 						String select = "";
 						System.out.println();
 						System.out.println("Select 1 or 2");
 						System.out.println("-----------------");
-						System.out.println("1. í™œë™ì ì¸ ");
-						System.out.println("2. ì”ì”í•œ ");
-						System.out.println("3. ì˜¬ë ˆê¸¸ ");
-						System.out.println("4. ì¹´í˜íˆ¬ì–´ ");
+						System.out.println("1. È°µ¿ÀûÀÎ ");
+						System.out.println("2. ÀÜÀÜÇÑ ");
+						System.out.println("3. ¿Ã·¹±æ ");
+						System.out.println("4. Ä«ÆäÅõ¾î ");
 						System.out.println("-----------------");
 					
 						int token1 = scan.nextInt();
 						System.out.println();
 						if(token1==1) {
-							System.out.println("Selected 'í™œë™ì ì¸'");
-							first ="  í™œë™ì ì¸ ";
+							System.out.println("Selected 'È°µ¿ÀûÀÎ'");
+							first ="  È°µ¿ÀûÀÎ ";
 							select= select + Integer.toString(token1);
 							
 							System.out.println();
 							System.out.println("-----------------");
-							System.out.println("1. ë°”ë‹¤ ");
-							System.out.println("2. ì‚° ");
+							System.out.println("1. ¹Ù´Ù ");
+							System.out.println("2. »ê ");
 							System.out.println("-----------------");
 							int token11 = scan.nextInt();
 							
 							if(token11 == 1) {
-								System.out.println("Select 'ë°”ë‹¤'");
-								first = first + "  ë°”ë‹¤ ";
+								System.out.println("Select '¹Ù´Ù'");
+								first = first + "  ¹Ù´Ù ";
 								select = select + Integer.toString(token11);
 								
 							}else if(token11 == 2) {
-								System.out.println("Select 'ì‚°'");
-								first = first + "  ì‚° ";
+								System.out.println("Select '»ê'");
+								first = first + "  »ê ";
 								select = select + Integer.toString(token11);
 								
 								System.out.println();
 								System.out.println("-----------------");
-								System.out.println("1. ìŠ¹ë§ˆ ");
-								System.out.println("2. ì˜¤ë¦„ ");
+								System.out.println("1. ½Â¸¶ ");
+								System.out.println("2. ¿À¸§ ");
 								System.out.println("-----------------");
 								int token111 = scan.nextInt();
 								
 								if(token111 == 1) {
-									System.out.println("Selected 'ìŠ¹ë§ˆ'");
-									first = first + "  ìŠ¹ë§ˆ ";
+									System.out.println("Selected '½Â¸¶'");
+									first = first + "  ½Â¸¶ ";
 									select = select + Integer.toString(token111);
 								}else if(token111 == 2) {
-									System.out.println("Selected 'ì˜¤ë¦„'");
-									first = first + "  ì˜¤ë¦„ ";
+									System.out.println("Selected '¿À¸§'");
+									first = first + "  ¿À¸§ ";
 									select = select + Integer.toString(token111);
 								}
 							}
 						}
 						else if(token1==2) {
-							System.out.println("Select 'ì”ì”í•œ'");
-							first ="  ì”ì”í•œ ";
+							System.out.println("Select 'ÀÜÀÜÇÑ'");
+							first ="  ÀÜÀÜÇÑ ";
 							select = select + Integer.toString(token1);
 							
 							System.out.println();
 							System.out.println("-----------------");
-							System.out.println("1. ë°”ë‹¤ ");
-							System.out.println("2. ì‚° ");
-							System.out.println("3. ê¸°íƒ€ ");
+							System.out.println("1. ¹Ù´Ù ");
+							System.out.println("2. »ê ");
+							System.out.println("3. ±âÅ¸ ");
 							System.out.println("-----------------");
 							int token11 = scan.nextInt();
 							
 							if(token11 == 1) {
-								System.out.println("Select 'ë°”ë‹¤'");
-								first = first + "  ë°”ë‹¤ ";
+								System.out.println("Select '¹Ù´Ù'");
+								first = first + "  ¹Ù´Ù ";
 								select = select + Integer.toString(token11);
 					
 							}else if(token11 == 2) {
-								System.out.println("Select 'ì‚°'");
-								first = first +  "  ì‚° ";
+								System.out.println("Select '»ê'");
+								first = first +  "  »ê ";
 								select = select + Integer.toString(token11);
 								
 								System.out.println();
 								System.out.println("-----------------");
-								System.out.println("1. ì‹ë¬¼ì› ");
-								System.out.println("2. ê´€ê´‘ë†ì› ");
-								System.out.println("3. ìˆ²ê¸¸ ");
+								System.out.println("1. ½Ä¹°¿ø ");
+								System.out.println("2. °ü±¤³ó¿ø ");
+								System.out.println("3. ½£±æ ");
 								System.out.println("-----------------");
 								int token111 = scan.nextInt();
 								
 								if(token111 == 1) {
-									System.out.println("Select 'ì‹ë¬¼ì›'");
-									first = first + "  ì‹ë¬¼ì› ";
+									System.out.println("Select '½Ä¹°¿ø'");
+									first = first + "  ½Ä¹°¿ø ";
 									select = select + Integer.toString(token111);
 								}else if(token111 == 2) {
-									System.out.println("Select 'ê´€ê´‘ë†ì›'");
-									first = first + "  ê´€ê´‘ë†ì› ";
+									System.out.println("Select '°ü±¤³ó¿ø'");
+									first = first + "  °ü±¤³ó¿ø ";
 									select = select + Integer.toString(token111);
 								}
 							}else if(token11 == 3) {
-								System.out.println("Select 'ê¸°íƒ€'");
-								first = first +  "  ê¸°íƒ€ ";
+								System.out.println("Select '±âÅ¸'");
+								first = first +  "  ±âÅ¸ ";
 								select = select + Integer.toString(token11);
 							}
 						}
 						else if(token1==4) {
-							System.out.println("Select 'ì¹´í˜íˆ¬ì–´'");
-							first ="  ì¹´í˜íˆ¬ì–´ ";
+							System.out.println("Select 'Ä«ÆäÅõ¾î'");
+							first ="  Ä«ÆäÅõ¾î ";
 							select = select + Integer.toString(token1);
 						}
 						
@@ -620,11 +607,11 @@ public class JEJU {
 
 						System.out.println(select);
 						System.out.println();
-						System.out.println("---------------ê²°ê³¼----------------");
+						System.out.println("---------------°á°ú----------------");
 						System.out.println(first);
 						sql = "select direction from host where uid = "+ uID +"::varchar"+";";
-						String direction = Methods.user_dir(statement, sql);
-						Methods.attraction(statement, select, direction, uID);
+						String direction = user_dir(statement, sql);
+						attraction(statement, select, direction, uID);
 						
 						scan.nextLine();
 
@@ -632,28 +619,28 @@ public class JEJU {
 					else if(token==4) {
 						System.out.println("Select");
 						System.out.println("-----------------");
-						System.out.println("1. Most selected in ìŒì‹");
-						System.out.println("2. Most selected in ê´€ê´‘");
-						System.out.println("2. Most selected in ìˆ™ë°•");
+						System.out.println("1. Most selected in À½½Ä");
+						System.out.println("2. Most selected in °ü±¤");
+						System.out.println("2. Most selected in ¼÷¹Ú");
 						System.out.println("-----------------");
 					
 						int token4 = scan.nextInt();
 						if(token4==1) {
-							System.out.println("ID : 131ë‹˜ì´ ì„¤ì •í•œ ë‚¨/20ëŒ€/ì œì£¼ë„ ë™ë¶€ ì—ì„œì˜ ê°€ì¥ ì¸ê¸°ìˆëŠ” ìŒì‹ì€");
-							System.out.println("ì¹´í…Œê³ ë¦¬ : í–¥í† ìŒì‹, ìŒì‹:ì ‘ì§ë¼ˆêµ­");
-							System.out.println("ì‹ë‹¹");
-							System.out.println("ì´ë¦„ : ~~~~ / ì£¼ì†Œ:~~~~ /  ì˜ì—…ì‹œê°„:~~~");
-							System.out.println("ì´ë¦„ : ~~~~ / ì£¼ì†Œ:~~~~ /  ì˜ì—…ì‹œê°„:~~~");
-							System.out.println("ì´ë¦„ : ~~~~ / ì£¼ì†Œ:~~~~ /  ì˜ì—…ì‹œê°„:~~~");
+							System.out.println("ID : 131´ÔÀÌ ¼³Á¤ÇÑ ³²/20´ë/Á¦ÁÖµµ µ¿ºÎ ¿¡¼­ÀÇ °¡Àå ÀÎ±âÀÖ´Â À½½ÄÀº");
+							System.out.println("Ä«Å×°í¸® : ÇâÅäÀ½½Ä, À½½Ä:Á¢Â¦»À±¹");
+							System.out.println("½Ä´ç");
+							System.out.println("ÀÌ¸§ : ~~~~ / ÁÖ¼Ò:~~~~ /  ¿µ¾÷½Ã°£:~~~");
+							System.out.println("ÀÌ¸§ : ~~~~ / ÁÖ¼Ò:~~~~ /  ¿µ¾÷½Ã°£:~~~");
+							System.out.println("ÀÌ¸§ : ~~~~ / ÁÖ¼Ò:~~~~ /  ¿µ¾÷½Ã°£:~~~");
 						
 						}
 						else if(token4==2) {
-							System.out.println("ID : ~~~ë‹˜ì´ ì„¤ì •í•œ ë‚¨/20ëŒ€/ì œì£¼ë„ ë™ë¶€ ì—ì„œì˜ ê°€ì¥ ì¸ê¸°ìˆëŠ” ê´€ê´‘ì§€ëŠ”");
-							System.out.println("ì¹´í…Œê³ ë¦¬: ~~~-~~~-~~~ ê´€ê´‘ì§€ëª… : ~~~~~~~~~~");
+							System.out.println("ID : ~~~´ÔÀÌ ¼³Á¤ÇÑ ³²/20´ë/Á¦ÁÖµµ µ¿ºÎ ¿¡¼­ÀÇ °¡Àå ÀÎ±âÀÖ´Â °ü±¤Áö´Â");
+							System.out.println("Ä«Å×°í¸®: ~~~-~~~-~~~ °ü±¤Áö¸í : ~~~~~~~~~~");
 						}
 						else if(token4==3) {
-							System.out.println("ID : ~~~ë‹˜ì´ ì„¤ì •í•œ ë‚¨/20ëŒ€/ì œì£¼ë„ ë™ë¶€ ì—ì„œì˜ ê°€ì¥ ì¸ê¸°ìˆëŠ” ìˆ™ë°•í˜•íƒœëŠ”");
-							System.out.println("ì¹´í…Œê³ ë¦¬: ~~~-~~~-~~~ ìˆ™ë°• : ~~~~~~~~~~");
+							System.out.println("ID : ~~~´ÔÀÌ ¼³Á¤ÇÑ ³²/20´ë/Á¦ÁÖµµ µ¿ºÎ ¿¡¼­ÀÇ °¡Àå ÀÎ±âÀÖ´Â ¼÷¹ÚÇüÅÂ´Â");
+							System.out.println("Ä«Å×°í¸®: ~~~-~~~-~~~ ¼÷¹Ú : ~~~~~~~~~~");
 						}
 					
 				
@@ -665,50 +652,50 @@ public class JEJU {
 					
 				
 				}
-				else if(bit.contains("3")) 	//bit3ì€exit
+				else if(bit.contains("3")) 	//bit3Àºexit
 				{
 					return;
 				
 				}
-				else if(bit.contains("4")) //bit4ëŠ” ê´€ë¦¬ìëª¨
+				else if(bit.contains("4")) //bit4´Â °ü¸®ÀÚ¸ğ
 			      {
 			         System.out.println();
-			         System.out.println("ê´€ë¦¬ìëª¨ë“œ ");
+			         System.out.println("°ü¸®ÀÚ¸ğµå ");
 			         System.out.println("-----------------");
-			         System.out.println("1. ë°ì´í„°ê´€ë¦¬");
-			         System.out.println("2. íšŒì›ê´€ë¦¬");
+			         System.out.println("1. µ¥ÀÌÅÍ°ü¸®");
+			         System.out.println("2. È¸¿ø°ü¸®");
 			         System.out.println("-----------------");
 			         String bit2 = scan.nextLine();
 			         if(bit2.contains("1"))
 			         {
 			            System.out.println();
-			            System.out.println("ë°ì´í„°ê´€ë¦¬ ");
+			            System.out.println("µ¥ÀÌÅÍ°ü¸® ");
 			            String bit3 = scan.nextLine();
 			            if(bit3.contains("1"))
 			            {
 			               System.out.println();
-			               System.out.println("ë°ì´í„°ì¶”ê°€");
+			               System.out.println("µ¥ÀÌÅÍÃß°¡");
 			            }
 			            else if(bit3.contains("2"))
 			            {
 			               System.out.println();
-			               System.out.println("ë°ì´í„°ì‚­ì œ");
+			               System.out.println("µ¥ÀÌÅÍ»èÁ¦");
 			            }
 			            
 			         }
-			         else if(bit2.contains("2"))//íšŒì›ê´€ë¦¬
+			         else if(bit2.contains("2"))//È¸¿ø°ü¸®
 			         {
 			            System.out.println();
-			            System.out.println("íšŒì›ê´€ë¦¬ ");
+			            System.out.println("È¸¿ø°ü¸® ");
 			            System.out.println("-----------------");
-			            System.out.println("1. ì „ì²´ ì‚¬ìš©ì í™•ì¸");
-			            System.out.println("2. ì‚¬ìš©ì ì‚­ì œ");
-			            System.out.println("2. ì‚¬ìš©ì ìˆ˜ì •");
+			            System.out.println("1. ÀüÃ¼ »ç¿ëÀÚ È®ÀÎ");
+			            System.out.println("2. »ç¿ëÀÚ »èÁ¦");
+			            System.out.println("2. »ç¿ëÀÚ ¼öÁ¤");
 			            System.out.println("-----------------");
 			            String bit3 = scan.nextLine();
 			            String uID, upwd, sex,age, dir;
 			            
-			            if(bit3.contains("1")) {//ì „ì²´ ì‚¬ìš©ì í™•ì¸
+			            if(bit3.contains("1")) {//ÀüÃ¼ »ç¿ëÀÚ È®ÀÎ
 			               sql="select * from host;";
 			               ps = conn.prepareStatement(sql);
 			               rs = ps.executeQuery();
@@ -728,9 +715,9 @@ public class JEJU {
 			               System.out.println("-----------------------------------------------------");
 			               index=1;
 			            }
-			            else if(bit3.contains("2")) { // ì‚¬ìš©ì ì‚­ì œ
+			            else if(bit3.contains("2")) { // »ç¿ëÀÚ »èÁ¦
 			               System.out.println("-----------------------------------------------------");
-			               System.out.println("ì‚­ì œí•  ì‚¬ìš©ì ID : ");
+			               System.out.println("»èÁ¦ÇÒ »ç¿ëÀÚ ID : ");
 			               String del_uID = scan.nextLine();
 			               sql = "select * from host where uID = ?;";
 			               ps = conn.prepareStatement(sql);
@@ -753,7 +740,7 @@ public class JEJU {
 			               System.out.println("-----------------------------------------------------");
 			               index=1;
 			               
-			               System.out.println("ë‹¤ìŒ ì‚¬ìš©ìë¥¼ ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ? (y/n)");
+			               System.out.println("´ÙÀ½ »ç¿ëÀÚ¸¦ »èÁ¦ÇÏ½Ã°Ú½À´Ï±î? (y/n)");
 			               String bit4 = scan.nextLine();
 			               if(bit4.contains("y")){
 			                  sql = "delete from host where uID = ?;";
@@ -761,10 +748,10 @@ public class JEJU {
 			                    ps.clearParameters();
 			                    ps.setString(1,del_uID);
 			                    rs = ps.executeQuery();
-			                    System.out.println("ì‚­ì œê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
+			                    System.out.println("»èÁ¦°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
 			               }
 			               else {
-			                  System.out.println("ì·¨ì†Œ");
+			                  System.out.println("Ãë¼Ò");
 			               }
 			               
 			            }

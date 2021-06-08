@@ -144,29 +144,82 @@ public class Db {
 				String colValue = "이름: " + rs.getString(1) + " / 위치: " + rs.getString(2) + " / 전화번호: " + rs.getString(3);
 			    System.out.println(colValue);
 		    }
-		}else if(select.contains("12")) {
+		}else if(select.contains("121")) {
+			String sql = "select aname, addr from att_1_2_h;";
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String colValue = "이름: " + rs.getString(1) + " / 위치: " + rs.getString(2);
+			    System.out.println(colValue);
+		    }
+		}else if(select.contains("122")) {
 			String sql = "select aname, addr from att_1_2_m;";
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String colValue = "이름: " + rs.getString(1) + " / 위치: " + rs.getString(2);
+			    System.out.println(colValue);
+		    }
+			
+		}else if(select.contains("211")) {
+			String sql = "select aname, addr, pnum from att_2_1_b;";
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
 				String colValue = "이름: " + rs.getString(1) + " / 위치: " + rs.getString(2) + " / 전화번호: " + rs.getString(3);
 			    System.out.println(colValue);
 		    }
-		}else if(select.contains("21")) {
-			
-		}else if(select.contains("22")) {
-			
+		}else if(select.contains("212")) {
+			String sql = "select aname, harbor from att_2_1_s;";
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String colValue = "이름: " + rs.getString(1) + " / 항구: " + rs.getString(2) + " / 전화번호: " + rs.getString(3);
+			    System.out.println(colValue);
+		    }
+		}else if(select.contains("221")) {
+			String sql = "select aname, addr from att_2_2_b;";
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String colValue = "이름: " + rs.getString(1) + " / 주소: " + rs.getString(2);
+			    System.out.println(colValue);
+		    }
+		}else if(select.contains("222")) {
+			String sql = "select aname, addr from att_2_2_p;";
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String colValue = "이름: " + rs.getString(1) + " / 주소: " + rs.getString(2);
+			    System.out.println(colValue);
+		    }
+		}else if(select.contains("223")) {
+			String sql = "select aname, dist from att_2_2_f;";
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String colValue = "이름: " + rs.getString(1) + " / 거리: " + rs.getString(2);
+			    System.out.println(colValue);
+			}
 		}else if(select.contains("23")) {
-			
+			String sql = "select aname, addr, pnum from att_2_3;";
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String colValue = "이름: " + rs.getString(1) + " / 주소: " + rs.getString(2) + " / 전화번호: " + rs.getString(3);
+			    System.out.println(colValue);
+			}
 		}else if(select.contains("3")) {
-			
+			String sql = "select aname, time from att_3;";
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String colValue = "이름: " + rs.getString(1) + " / 걸리는 시간: " + rs.getString(2);
+			    System.out.println(colValue);
+			}
 		}else if(select.contains("4")) {
-			
+			String sql = "select aname, addr, pnum from att_4 where class_3 == '커피숍';";
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String colValue = "이름: " + rs.getString(1) + " / 주소: " + rs.getString(2) + " / 전화번호: " + rs.getString(3);
+			    System.out.println(colValue);
+			}
 		}
 		
 		
     }
-	
-	
+
 	public static void main(String args[]) throws SQLException, IOException {
 		Connection conn = null;
 		
@@ -481,17 +534,21 @@ public class Db {
 								System.out.println("-----------------");
 								System.out.println("1. 식물원 ");
 								System.out.println("2. 관광농원 ");
-								System.out.println("3. 관광농원 ");
+								System.out.println("3. 숲길 ");
 								System.out.println("-----------------");
 								int token111 = scan.nextInt();
 								
 								if(token111 == 1) {
-									System.out.println("Select '관광유람선'");
-									first = first + "  관광유람선 ";
+									System.out.println("Select '식물원'");
+									first = first + "  식물원 ";
 									select = select + Integer.toString(token111);
 								}else if(token111 == 2) {
-									System.out.println("Select '레저'");
-									first = first + "  레저 ";
+									System.out.println("Select '관광농원'");
+									first = first + "  관광농원 ";
+									select = select + Integer.toString(token111);
+								}else if(token111 == 3) {
+									System.out.println("Select '숲길'");
+									first = first + "  숲길 ";
 									select = select + Integer.toString(token111);
 								}
 							}else if(token11 == 3) {

@@ -41,7 +41,7 @@ public class JEJU {
 		PreparedStatement ps;
 	    ResultSet rs;
 	    int state = 0;
-		
+		int check_toal_attraction = 1;
 		
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -62,7 +62,12 @@ public class JEJU {
 			
 			
 			Statement statement = conn.createStatement();
-			state = Methods.total_attraction(statement,state); //(total attraction 테이블 생성후 attraction 모두 합침)
+			if(check_total_attraction)
+			{
+				state = Methods.total_attraction(statement,state); //(total attraction 테이블 생성후 attraction 모두 합침)
+				check_total_attraction = -1;
+			}
+			
 			
 			while(true) 
 			{	

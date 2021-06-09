@@ -8,62 +8,88 @@ import java.util.Scanner;
 
 public class Methods {
 
-	public static void lodg(Statement statement, String direction, String select, String uID) throws SQLException {
+	
+
+	public static void lodg(Statement statement, String select) throws SQLException {
 
 		Scanner scan = new Scanner(System.in);
 		String sql = "select lname, addr, room_num, pnum from lodgment_with_class where class_l ='"+ select + "';";
 		ResultSet rs = statement.executeQuery(sql);
-		System.out.println(direction);
-
-		if (direction.contains("e")) {
-			while (rs.next()) {
-				if(rs.getString(2).contains("성산") || rs.getString(2).contains("구좌") || rs.getString(2).contains("제주시")) {
-					String colValue = "이름: " + rs.getString(1) + " / 주소: " + rs.getString(2) + " / 방 개수: " + rs.getString(3)+ " / 전화번호: " + rs.getString(4);
-					System.out.println(colValue);
-
-				}
-		    }
-			
-		}else if(direction.contains("w")) {
-			while (rs.next()) {
-				if(rs.getString(2).contains("한경") || rs.getString(2).contains("한림") || rs.getString(2).contains("대정")) {
-					String colValue = "이름: " + rs.getString(1) + " / 주소: " + rs.getString(2) + " / 방 개수: " + rs.getString(3)+ " / 전화번호: " + rs.getString(4);
-			        System.out.println(colValue);
-				}
-		    }
-
-			
-		}else if(direction.contains("s")) {
-			while (rs.next()) {
-				if(rs.getString(2).contains("안덕") || rs.getString(2).contains("표선") || rs.getString(2).contains("남원") || rs.getString(2).contains("서귀포")) {
-					System.out.println(rs.getString(2));
-					String colValue = "이름: " + rs.getString(1) + " / 주소: " + rs.getString(2) + " / 방 개수: " + rs.getString(3)+ " / 전화번호: " + rs.getString(4);
-			        System.out.println(colValue);
-				}
-		    }
-			
-		}else if(direction.contains("n")){
-			while (rs.next()) {
-				if(rs.getString(2).contains("애월") || rs.getString(2).contains("조천") || rs.getString(2).contains("제주시")) {
-					String colValue = "이름: " + rs.getString(1) + " / 주소: " + rs.getString(2) + " / 방 개수: " + rs.getString(3)+ " / 전화번호: " + rs.getString(4);
-			        System.out.println(colValue);
-				}
-		    }
+		
+		
+		while(rs.next()) {
+			String colValue = "이름: " + rs.getString(1) + " / 주소: " + rs.getString(2) + " / 방 개수: " + rs.getString(3)+ " / 전화번호: " + rs.getString(4);
+			System.out.println(colValue);
 		}
+
+		
 	}
 	
 	
-	public static String user_dir(Statement statement, String sql) throws SQLException {
-		ResultSet rs = statement.executeQuery(sql);
-		String direction = "";
-	    if(rs.next()) {
-	    	direction = rs.getString(1);
-	    }
-	    return direction;
+	public static String getSentence2(String sentence, String class_l) {
+		if (class_l.equals("111")) {
+			sentence = "제주스러운, 독채, 도심";
+		}
+		else if(class_l.equals("112")) {
+			sentence = "제주스러운, 독채, 한적한";
+		}
+		else if(class_l.equals("121")) {
+			sentence = "제주스러운, 다세대, 도심";
+		}
+		else if(class_l.equals("122")) {
+			sentence = "제주스러운, 다세대, 한적한";
+		}
+		else if(class_l.equals("211")) {
+			sentence = "럭셔리한, 독채, 도심";
+		}
+		else if(class_l.equals("212")) {
+			sentence = "럭셔리한, 독채, 한적한";
+		}
+		else if(class_l.equals("211")) {
+			sentence = "럭셔리한, 다세대, 도심";
+		}
+		else if(class_l.equals("222")) {
+			sentence = "럭셔리한, 다세대, 한적한";
+		}
+		return sentence;
+	}
+	public static String getSentence1(String sentence, String class_l) {
+		if (class_l.equals("11")) {
+			sentence = "활동적인, 바다";
+		}
+		else if(class_l.equals("121")) {
+			sentence = "활동적인, 산, 승마";
+		}
+		else if(class_l.equals("122")) {
+			sentence = "활동적인, 산, 오름";
+		}
+		else if(class_l.equals("21")) {
+			sentence = "잔잔한, 바다";
+		}
+		else if(class_l.equals("221")) {
+			sentence = "잔잔한, 산, 식물원";
+		}
+		else if(class_l.equals("222")) {
+			sentence = "잔잔한, 산, 관광농원";
+		}
+		else if(class_l.equals("211")) {
+			sentence = "잔잔한, 산, 숲길";
+		}
+		else if(class_l.equals("23")) {
+			sentence = "잔잔한, 기타";
+		}
+		else if(class_l.equals("3")) {
+			sentence = "올레길";
+		}
+		else if(class_l.equals("4")) {
+			sentence = "카페투어";
+		}
+		return sentence;
 	}
 	
-	
-	public static void total_attraction(Statement statement) throws SQLException {
+	public static int total_attraction(Statement statement, int state) throws SQLException {
+		if(state==0) {
+			
 		String sql = "create table if not exists total_attraction(aname varchar(50), addr varchar(100), class_a varchar(10));";
 		statement.executeUpdate(sql);
 		ArrayList<ArrayList<String>> datas = new ArrayList<ArrayList<String>>();
@@ -117,45 +143,22 @@ public class Methods {
 			}
 			
 		}
+		state=1;
+		}
+		return state;
 	}
 	
-public static void attraction(Statement statement, String select, String direction, String uID) throws SQLException {
+public static void attraction(Statement statement, String select) throws SQLException {
 		
 		Scanner scan = new Scanner(System.in);
 		String sql = "select aname, addr from total_attraction where class_a = '"+ select +"';";
 		ResultSet rs = statement.executeQuery(sql);
-		System.out.println(direction);
+		
 
-		if (direction.contains("e")) {
-			while (rs.next()) {
-				if(rs.getString(2).contains("성산") || rs.getString(2).contains("구좌") || rs.getString(2).contains("제주시")) {
-					String colValue = "이름: " + rs.getString(1) + " / 주소: " + rs.getString(2);
-					System.out.println(colValue);
-				}
-		    }	
-		}else if(direction.contains("w")) {
-			while (rs.next()) {
-				if(rs.getString(2).contains("한경") || rs.getString(2).contains("한림") || rs.getString(2).contains("대정")) {
-					String colValue = "이름: " + rs.getString(1) + " / 주소: " + rs.getString(2);
-			        System.out.println(colValue);
-				}
-		    }
-		}else if(direction.contains("s")) {
-			while (rs.next()) {
-				if(rs.getString(2).contains("안덕") || rs.getString(2).contains("표선") || rs.getString(2).contains("남원") || rs.getString(2).contains("서귀포")) {
-					System.out.println(rs.getString(2));
-					String colValue = "이름: " + rs.getString(1) + " / 주소: " + rs.getString(2);
-			        System.out.println(colValue);
-				}
-		    }
-		}else if(direction.contains("n")){
-			ArrayList<ArrayList<String>> datas = new ArrayList<ArrayList<String>>();
-			while (rs.next()) {
-				if(rs.getString(2).contains("애월") || rs.getString(2).contains("조천") || rs.getString(2).contains("제주시")) {
-					String colValue = "이름: " + rs.getString(1) + " / 주소: " + rs.getString(2);
-			        System.out.println(colValue);
-				}
-		    }
+		while (rs.next()) {
+			String colValue = "이름: " + rs.getString(1) + " / 주소: " + rs.getString(2);
+			System.out.println(colValue);
 		}
+		
     }
 }

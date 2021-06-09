@@ -35,20 +35,34 @@ public class JEJU {
 		Connection conn = null;
 		
 		Scanner scan = new Scanner(System.in);
+		
 		int result;
 		String sql;
 		PreparedStatement ps;
 	    ResultSet rs;
+	    int state = 0;
 		
 		
 		try {
 			Class.forName("org.postgresql.Driver");
 			conn = DriverManager.getConnection(url, user, password );
-			sql = "create table if not exists host(uID varchar(20), pwd varchar(20), sex char(2), age int, direction char(2));";
+			
+			sql = "create table if not exists host(uID varchar(20) primary key, pwd varchar(20), sex char(2), age int);"+
+					"create table if not exists best_lodgement(uID varchar(20), sel_class varchar(10), sex char(2), age int);"+
+					"create table if not exists best_food(uID varchar(20),class_f int, menu varchar(30), sex char(2), age int);"+
+					"create table if not exists best_attraction(uID varchar(20), sel_class varchar(10), sex char(2), age int);";
 			ps = conn.prepareStatement(sql);
-			result = ps.executeUpdate();
+			result = ps.executeUpdate(); //host, rank table생성
+			
+			sql = "create or replace view bt_food as select sex,age,class_f,menu,count(uID) from best_food group by sex,age,class_f,menu order by count(uID) desc;"+
+					"create or replace view bt_lodgement as select sex,age,sel_class,count(uID) from best_lodgement group by sex,age,sel_class order by count(uID) desc;"+
+					"create or replace view bt_attraction as select sex,age,sel_class, count(uID) from best_attraction group by sex,age,sel_class order by count(uID) desc;";
+			ps = conn.prepareStatement(sql);
+			ps.executeUpdate(); //rank view생성
+			
+			
 			Statement statement = conn.createStatement();
-			//total_attraction(statement); //(total attraction 테이블 생성후 attraction 모두 합침)
+			state = Methods.total_attraction(statement,state); //(total attraction 테이블 생성후 attraction 모두 합침)
 			
 			while(true) 
 			{	
@@ -57,7 +71,6 @@ public class JEJU {
 				System.out.println("2. sign in");
 				System.out.println("3. Exit");
 				System.out.println("-----------------");
-				String Direction = "";
 				String bit = scan.nextLine(); 
 
 				
@@ -78,19 +91,22 @@ public class JEJU {
 					String temp = scan.nextLine();
 					int Age = Integer.parseInt(temp);
 					
-					System.out.print("plan to visit[E,W,S,N] : ");
-					Direction = scan.nextLine();
 					
 					System.out.println("-----------------");
 					
-					sql = "insert into host values(?,?,?,?,?);";
+					sql = "insert into host values(?,?,?,?);";
 			        ps = conn.prepareStatement(sql);
 			        ps.clearParameters();
 			        ps.setString(1,uID);
 			        ps.setString(2,PWD);
+			        if(Sex == "F") {
+			        	Sex="f";
+			        }
+			        else if(Sex =="M") {
+			        	Sex="m";
+			        }
 			        ps.setString(3,Sex);
 			        ps.setInt(4,Age);
-			        ps.setString(5,Direction);
 			        result = ps.executeUpdate();
 			        
 			        System.out.println();
@@ -112,6 +128,7 @@ public class JEJU {
 				    ps.setString(1,uID);
 					rs = ps.executeQuery();
 					rs.next();
+					
 					
 					int count = rs.getInt(1);
 					if(count < 1)
@@ -135,7 +152,23 @@ public class JEJU {
 		
 						continue;
 					}
-				
+					
+					int exit =0;
+					while (exit ==0) {
+					String sex = "";
+					int age = 0;
+					sql = "select uID,sex,age from host where uID = ?;";
+					ps = conn.prepareStatement(sql);
+					ps.clearParameters();
+					ps.setString(1,uID);
+					rs = ps.executeQuery();
+					while(rs.next())
+						{
+							uID = rs.getString(1);
+							sex = rs.getString(2);
+							age = rs.getInt(3);
+						} // best저장을 위한 정보 추출
+					
 					System.out.println();
 					System.out.println("Welcome!\n");
 					System.out.println("-----------------");
@@ -143,7 +176,7 @@ public class JEJU {
 					System.out.println("2. 식당");
 					System.out.println("3. 관광");
 					System.out.println("4. 순위확인");
-					System.out.println("5. exit");
+					System.out.println("5. log out");
 					System.out.println("-----------------");
 				
 					int token = scan.nextInt();
@@ -217,15 +250,23 @@ public class JEJU {
 					//select는 111~222
 					
 						statement = conn.createStatement();
-						sql = "select direction from host where uid = "+ uID +"::varchar"+";";
-						String direction = Methods.user_dir(statement, sql);
 						
-						
-						System.out.println(select);
+						second = second.concat(","+third);
+						first = first.concat(","+second);
 						System.out.println();
 						System.out.println("---------------결과----------------");
-						System.out.println("선택된 " + first + " , " + second +  " , " + third);
-						Methods.lodg(statement, direction, select, uID);
+						System.out.println("선택된 " + first);
+						Methods.lodg(statement, select);
+						
+						sql = "insert into best_lodgement values(?,?,?,?);";
+						ps = conn.prepareStatement(sql);
+						ps.clearParameters();
+					    ps.setString(1, uID);
+					    ps.setString(2, select);
+					    ps.setString(3, sex);
+					    ps.setInt(4, (age/10)*10);
+						ps.execute();
+						
 						System.out.println();
 					
 					}
@@ -239,7 +280,7 @@ public class JEJU {
 						System.out.println("-----------------");
 			            ArrayList<String> candidate_menu = new ArrayList<>();
 						int token2 = scan.nextInt();
-						
+						int class_f=1;
 						if(token2==1) 
 						{
 							//향토음
@@ -292,6 +333,7 @@ public class JEJU {
 						else if(token2==2) 
 						{
 							//일반음식
+							class_f=2;
 							sql = "select distinct menu from ordinaryfood;";
 							ps = conn.prepareStatement(sql);
 				            rs = ps.executeQuery();
@@ -451,44 +493,13 @@ public class JEJU {
 						System.out.println("---------------------------------------------------------------------------------------------------------------------------");
 						System.out.println();
 						System.out.println(winner + " 판매업소");
-						String tableName = "ordinaryfood";
 						if(token2==1) //winner가 포함된 nativefood table정보를보여준다 
 						{
-							if(Direction.equals("N"))
-							{
-								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%애월%' or loc LIKE '%조천%');";
-							}
-							else if(Direction.equals("E"))
-							{
-								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%성산%' or loc LIKE '%구좌%');";
-							}
-							else if(Direction.equals("W"))
-							{
-								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%한경%' or loc LIKE '%한림%' or loc LIKE '%대정%');";
-							}
-							else
-							{
-								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ? and (loc LIKE '%안덕%' or loc LIKE '%표선%' or loc LIKE '%남원%');";
-							}
+							sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ?;";
 						}
 						else
 						{
-							if(Direction.equals("N"))
-							{
-								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%애월%' or loc LIKE '%조천%');";
-							}
-							else if(Direction.equals("E"))
-							{
-								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%성산%' or loc LIKE '%구좌%');";
-							}
-							else if(Direction.equals("W"))
-							{
-								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%한경%' or loc LIKE '%한림%' or loc LIKE '%대정%');";
-							}
-							else
-							{
-								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ? and (loc LIKE '%안덕%' or loc LIKE '%표선%' or loc LIKE '%남원%');";
-							}
+							sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ?;";
 		
 						}
 						
@@ -505,6 +516,15 @@ public class JEJU {
 						System.out.println();
 						System.out.println("초기화면으로돌아갑니다 ");
 						System.out.println();
+						sql = "insert into best_food values(?,?,?,?,?);";
+						ps = conn.prepareStatement(sql);
+						ps.clearParameters();
+					    ps.setString(1, uID);
+					    ps.setInt(2, class_f);
+					    ps.setString(3, winner);
+					    ps.setString(4, sex);
+					    ps.setInt(5, (age/10)*10);
+						ps.execute();
 						scan.nextLine();
 					}
 				
@@ -552,11 +572,11 @@ public class JEJU {
 								int token111 = scan.nextInt();
 								
 								if(token111 == 1) {
-									System.out.println("Selected '승마'");
+									System.out.println("Select '승마'");
 									first = first + "  승마 ";
 									select = select + Integer.toString(token111);
 								}else if(token111 == 2) {
-									System.out.println("Selected '오름'");
+									System.out.println("Select '오름'");
 									first = first + "  오름 ";
 									select = select + Integer.toString(token111);
 								}
@@ -618,65 +638,138 @@ public class JEJU {
 						
 						statement = conn.createStatement();
 
-						System.out.println(select);
 						System.out.println();
 						System.out.println("---------------결과----------------");
 						System.out.println(first);
-						sql = "select direction from host where uid = "+ uID +"::varchar"+";";
-						String direction = Methods.user_dir(statement, sql);
-						Methods.attraction(statement, select, direction, uID);
+						Methods.attraction(statement, select);
+						sql = "insert into best_attraction values(?,?,?,?);";
+						ps = conn.prepareStatement(sql);
+						ps.clearParameters();
+					    ps.setString(1, uID);
+					    ps.setString(2, select);
+					    ps.setString(3, sex);
+					    ps.setInt(4, (age/10)*10);
+						ps.execute();
 						
 						scan.nextLine();
 
 					}
 					else if(token==4) {
+						
+						
 						System.out.println("Select");
 						System.out.println("-----------------");
 						System.out.println("1. Most selected in 음식");
 						System.out.println("2. Most selected in 관광");
-						System.out.println("2. Most selected in 숙박");
+						System.out.println("3. Most selected in 숙박");
 						System.out.println("-----------------");
 					
 						int token4 = scan.nextInt();
 						if(token4==1) {
-							System.out.println("ID : 131님이 설정한 남/20대/제주도 동부 에서의 가장 인기있는 음식은");
-							System.out.println("카테고리 : 향토음식, 음식:접짝뼈국");
+							
+							System.out.printf("ID : %s님이 설정한 %s/%d대 에서 가장 인기있는 음식은 ", uID, (sex=="f") ? "여" : "남", (age/10)*10);
+							sql = "select class_f,menu from bt_food where sex = ? and age = ?;";
+							ps = conn.prepareStatement(sql);
+							ps.clearParameters();
+						    ps.setString(1, sex);
+						    ps.setInt(2, (age/10)*10);
+							rs = ps.executeQuery();
+							rs.next();
+							int cate = rs.getInt(1);
+							String btmenu=rs.getString(2);
+							
+							System.out.printf("카테고리 : %s, 음식:%s", cate==1 ? "향토음식" : "일반음식",btmenu);
 							System.out.println("식당");
-							System.out.println("이름 : ~~~~ / 주소:~~~~ /  영업시간:~~~");
-							System.out.println("이름 : ~~~~ / 주소:~~~~ /  영업시간:~~~");
-							System.out.println("이름 : ~~~~ / 주소:~~~~ /  영업시간:~~~");
+							if(cate==1) 
+							{
+								sql = "select rname,loc,phonenum,menu from nativefood where menu LIKE ?;";
+							}
+							else
+							{
+								sql = "select rname,loc,phonenum,menu from ordinaryfood where menu LIKE ?;";
+			
+							}
+							
+							ps = conn.prepareStatement(sql);
+							ps.clearParameters();
+						    ps.setString(1, "%" + btmenu + "%");
+							rs = ps.executeQuery();
+							
+							while(rs.next())
+							{
+								System.out.println(rs.getString(1) + "\t\t" + rs.getString(2) + "\t\t" + rs.getString(3) + "\t\t" + rs.getString(4));
+							}
+							
 						
 						}
 						else if(token4==2) {
-							System.out.println("ID : ~~~님이 설정한 남/20대/제주도 동부 에서의 가장 인기있는 관광지는");
-							System.out.println("카테고리: ~~~-~~~-~~~ 관광지명 : ~~~~~~~~~~");
+							System.out.printf("ID : %s님이 설정한 %s/%d대 에서의 가장 인기있는 관광지는",uID, (sex=="f") ? "여" : "남", (age/10)*10);
+							sql = "select sel_class from bt_attraction where sex = ? and age = ?;";
+							ps = conn.prepareStatement(sql);
+							ps.clearParameters();
+						    ps.setString(1, sex);
+						    ps.setInt(2, (age/10)*10);
+							rs = ps.executeQuery();
+							rs.next();
+							
+							String sentence ="";
+							String bt_sel1 = rs.getString(1);
+							sentence = Methods.getSentence1(sentence, bt_sel1);
+							
+							System.out.printf("카테고리: %s",sentence);
+							Methods.attraction(statement,bt_sel1);
+							
 						}
 						else if(token4==3) {
-							System.out.println("ID : ~~~님이 설정한 남/20대/제주도 동부 에서의 가장 인기있는 숙박형태는");
-							System.out.println("카테고리: ~~~-~~~-~~~ 숙박 : ~~~~~~~~~~");
+							System.out.printf("ID : %s님이 설정한 %s/%d대 에서의 가장 인기있는 숙박형태는",uID, (sex=="f") ? "여" : "남", (age/10)*10);
+							sql = "select sel_class from bt_lodgement where sex = ? and age = ?;";
+							ps = conn.prepareStatement(sql);
+							ps.clearParameters();
+						    ps.setString(1, sex);
+						    ps.setInt(2, (age/10)*10);
+							rs = ps.executeQuery();
+							rs.next();
+							
+							
+							
+							
+							String sentence ="";
+							String bt_sel2 = rs.getString(1);
+							System.out.println(bt_sel2);
+							sentence= Methods.getSentence2(sentence, bt_sel2);
+							
+							System.out.printf("카테고리: %s",sentence);
+							Methods.lodg(statement, bt_sel2);
 						}
 					
 				
 					
 						}
 					else {
-						continue;
+						System.out.printf("%s님, 로그아웃 되었습니다.\n",uID);
+						exit=1;
+						
+						
 						}
+					}
 					
 				
 				}
 				else if(bit.contains("3")) 	//bit3은exit
 				{
-					return;
+					break;
 				
 				}
 				else if(bit.contains("4")) //bit4는 관리자모
 			      {
+					int ex = 0;
+					while(ex==0) {
 			         System.out.println();
 			         System.out.println("관리자모드 ");
 			         System.out.println("-----------------");
 			         System.out.println("1. 데이터관리");
 			         System.out.println("2. 회원관리");
+			         System.out.println("3. exit");
 			         System.out.println("-----------------");
 			         String bit2 = scan.nextLine();
 			         if(bit2.contains("1"))
@@ -703,10 +796,9 @@ public class JEJU {
 			            System.out.println("-----------------");
 			            System.out.println("1. 전체 사용자 확인");
 			            System.out.println("2. 사용자 삭제");
-			            System.out.println("2. 사용자 수정");
 			            System.out.println("-----------------");
 			            String bit3 = scan.nextLine();
-			            String uID, upwd, sex,age, dir;
+			            String uID, upwd, sex,age;
 			            
 			            if(bit3.contains("1")) {//전체 사용자 확인
 			               sql="select * from host;";
@@ -714,15 +806,14 @@ public class JEJU {
 			               rs = ps.executeQuery();
 			         
 			               System.out.println("-----------------------------------------------------");
-			               System.out.println("  \tuID\tpwd\tsex\tage\tdir");
+			               System.out.println("  \tuID\tpwd\tsex\tage");
 			               int index=1;
 			               while (rs.next()) {
 			                  uID = rs.getString(1);
 			                  upwd = rs.getString(2);
 			                  sex = rs.getString(3);
 			                  age = rs.getString(4);
-			                  dir = rs.getString(5);
-			                  System.out.printf("%d:\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\n",index,uID, upwd,sex,age,dir);
+			                  System.out.printf("%d:\t%s\t%s\t%s\t%s\n",index,uID, upwd,sex,age);
 			                  index++;
 			               }
 			               System.out.println("-----------------------------------------------------");
@@ -739,15 +830,14 @@ public class JEJU {
 			                 rs = ps.executeQuery();
 			                 
 			                 System.out.println("-----------------------------------------------------");
-			               System.out.println("  \tuID\tpwd\tsex\tage\tdir");
+			               System.out.println("  \tuID\tpwd\tsex\tage");
 			               int index=1;
 			               while (rs.next()) {
 			                  uID = rs.getString(1);
 			                  upwd = rs.getString(2);
 			                  sex = rs.getString(3);
 			                  age = rs.getString(4);
-			                  dir = rs.getString(5);
-			                  System.out.printf("%d:\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\n",index,uID, upwd,sex,age,dir);
+			                  System.out.printf("%d:\t%s\t%s\t%s\t%s\n",index,uID, upwd,sex,age);
 			                  index++;
 			               }
 			               System.out.println("-----------------------------------------------------");
@@ -763,14 +853,20 @@ public class JEJU {
 			                    rs = ps.executeQuery();
 			                    System.out.println("삭제가 완료되었습니다.");
 			               }
-			               else {
-			                  System.out.println("취소");
-			               }
+			               
 			               
 			            }
 			            
 			            
+			            
 			         }
+			         else if(bit2.contains("3")) {//종료
+			               System.out.println("초기화면으로 돌아갑니다.");
+			               ex=1;
+			            }
+					}
+					
+					
 			      }
 		            
 		            

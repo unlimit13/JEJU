@@ -88,12 +88,13 @@ public class Methods {
 	}
 	
 	public static void total_attraction(Statement statement) throws SQLException {
-	
+		
 			
 		String sql = "create table if not exists total_attraction(aname varchar(50), addr varchar(100), class_a varchar(10));";
 		statement.executeUpdate(sql);
 		ArrayList<ArrayList<String>> datas = new ArrayList<ArrayList<String>>();
 		
+
 		sql = "select aname, loc from att_1_1;";
 		ResultSet rs = statement.executeQuery(sql);
 		while (rs.next()) {
@@ -143,8 +144,6 @@ public class Methods {
 			}
 			
 		}
-	
-		
 		
 	}
 	
@@ -153,16 +152,11 @@ public static void attraction(Statement statement, String select) throws SQLExce
 		Scanner scan = new Scanner(System.in);
 		String sql = "select aname, addr from total_attraction where class_a = '"+ select +"';";
 		ResultSet rs = statement.executeQuery(sql);
-		int count = 1;
 		
+
 		while (rs.next()) {
 			String colValue = "이름: " + rs.getString(1) + " / 주소: " + rs.getString(2);
 			System.out.println(colValue);
-			if(count == 30)
-			{
-				return;
-			}
-			count++;
 		}
 		
     }

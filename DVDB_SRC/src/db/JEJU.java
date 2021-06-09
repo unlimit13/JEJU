@@ -40,12 +40,14 @@ public class JEJU {
 		String sql;
 		PreparedStatement ps;
 	    ResultSet rs;
-		
+
+	    int state = 0;
+		int check_total_attraction=1;
+
 		
 		try {
 			Class.forName("org.postgresql.Driver");
 			conn = DriverManager.getConnection(url, user, password );
-			
 			sql = "create table if not exists host(uID varchar(20) primary key, pwd varchar(20), sex char(2), age int);"+
 					"create table if not exists best_lodgement(uID varchar(20), sel_class varchar(10), sex char(2), age int);"+
 					"create table if not exists best_food(uID varchar(20),class_f int, menu varchar(30), sex char(2), age int);"+
@@ -61,7 +63,16 @@ public class JEJU {
 			
 			
 			Statement statement = conn.createStatement();
-			Methods.total_attraction(statement); //(total attraction 테이블 생성후 attraction 모두 합침)
+
+
+			
+			if(check_total_attraction == 1)
+			{
+				Methods.total_attraction(statement); //(total attraction 테이블 생성후 attraction 모두 합침)
+				check_total_attraction = -1;
+			}
+			
+
 			
 			while(true) 
 			{	

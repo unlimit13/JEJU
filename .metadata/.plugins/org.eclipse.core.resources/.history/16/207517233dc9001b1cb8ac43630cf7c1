@@ -24,12 +24,12 @@ import java.util.Collections;
 import java.util.Scanner;
 
 
-public class JEJU {
+public class Db {
 	
 	private static String url = "jdbc:postgresql://localhost:5432/postgres";
-	private static String user = "unlimit13";
+	private static String user = "postgres";
 
-	private static String password = "1q2w3e4r!";
+	private static String password = "inter7477";
 	
 
 	public static void main(String args[]) throws SQLException, IOException {
@@ -42,7 +42,7 @@ public class JEJU {
 		PreparedStatement ps;
 	    ResultSet rs;
 
-	    
+	    int state = 0;
 		int check_total_attraction=1;
 		int check_total_lodgment=1;
 
@@ -641,11 +641,6 @@ public class JEJU {
 									first = first + "  관광농원 ";
 									select = select + Integer.toString(token111);
 								}
-								else if(token111 == 3) {
-									System.out.println("Select '숲길'");
-									first = first + "  숲길 ";
-									select = select + Integer.toString(token111);
-								}
 							}else if(token11 == 3) {
 								System.out.println("Select '기타'");
 								first = first +  "  기타 ";
@@ -732,7 +727,7 @@ public class JEJU {
 						
 						}
 						else if(token4==2) {
-							System.out.printf("ID : %s님이 설정한 %s/%d대 에서의 가장 인기있는 관광지는\n",uID, (sex=="f") ? "여" : "남", (age/10)*10);
+							System.out.printf("ID : %s님이 설정한 %s/%d대 에서의 가장 인기있는 관광지는",uID, (sex=="f") ? "여" : "남", (age/10)*10);
 							sql = "select sel_class from bt_attraction where sex = ? and age = ?;";
 							ps = conn.prepareStatement(sql);
 							ps.clearParameters();
@@ -745,12 +740,12 @@ public class JEJU {
 							String bt_sel1 = rs.getString(1);
 							sentence = Methods.getSentence1(sentence, bt_sel1);
 							
-							System.out.printf("카테고리: %s\n",sentence);
+							System.out.printf("카테고리: %s",sentence);
 							Methods.attraction(statement,bt_sel1);
 							
 						}
 						else if(token4==3) {
-							System.out.printf("ID : %s님이 설정한 %s/%d대 에서의 가장 인기있는 숙박형태는\n",uID, (sex=="f") ? "여" : "남", (age/10)*10);
+							System.out.printf("ID : %s님이 설정한 %s/%d대 에서의 가장 인기있는 숙박형태는",uID, (sex=="f") ? "여" : "남", (age/10)*10);
 							sql = "select sel_class from bt_lodgement where sex = ? and age = ?;";
 							ps = conn.prepareStatement(sql);
 							ps.clearParameters();
@@ -767,7 +762,7 @@ public class JEJU {
 							System.out.println(bt_sel2);
 							sentence= Methods.getSentence2(sentence, bt_sel2);
 							
-							System.out.printf("카테고리: %s\n",sentence);
+							System.out.printf("카테고리: %s",sentence);
 							Methods.lodg(statement, bt_sel2);
 						}
 					
@@ -806,10 +801,6 @@ public class JEJU {
 			         {
 			            System.out.println();
 			            System.out.println("데이터관리 ");
-			            System.out.println("-----------------");
-				        System.out.println("1. 데이터 추가");
-				        System.out.println("2. 데이터 삭제");
-				        System.out.println("-----------------");
 			            String bit3 = scan.nextLine();
 			            if(bit3.contains("1"))
 			            {
@@ -884,7 +875,7 @@ public class JEJU {
 			                  ps = conn.prepareStatement(sql);
 			                    ps.clearParameters();
 			                    ps.setString(1,del_uID);
-			                    ps.execute();
+			                    rs = ps.executeQuery();
 			                    System.out.println("삭제가 완료되었습니다.");
 			               }
 			               

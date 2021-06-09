@@ -158,7 +158,7 @@ public class Methods {
 			statement.execute(sql);
 		}
 		datas = new ArrayList<ArrayList<String>>();
-		sql = "select aname, addr from att_2_1_b;";
+		sql = "select aname, harbor from att_2_1_b;";
 		rs = statement.executeQuery(sql);
 		while (rs.next()) {
 			ArrayList<String> data = new ArrayList<>();

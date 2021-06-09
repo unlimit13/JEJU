@@ -807,9 +807,10 @@ public class JEJU {
 			            System.out.println();
 			            System.out.println("데이터관리 ");
 			            System.out.println("-----------------");
-				        System.out.println("1. 데이터 추가");
-				        System.out.println("2. 데이터 삭제");
-				        System.out.println("-----------------");
+				         System.out.println("1. 데이터 추가");
+				         System.out.println("2. 데이터 삭제");
+				         System.out.println("3. exit");
+				         System.out.println("-----------------");
 			            String bit3 = scan.nextLine();
 			            if(bit3.contains("1"))
 			            {

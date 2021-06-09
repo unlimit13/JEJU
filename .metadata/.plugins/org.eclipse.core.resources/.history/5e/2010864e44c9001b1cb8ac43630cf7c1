@@ -806,10 +806,6 @@ public class JEJU {
 			         {
 			            System.out.println();
 			            System.out.println("데이터관리 ");
-			            System.out.println("-----------------");
-				        System.out.println("1. 데이터 추가");
-				        System.out.println("2. 데이터 삭제");
-				        System.out.println("-----------------");
 			            String bit3 = scan.nextLine();
 			            if(bit3.contains("1"))
 			            {
@@ -884,7 +880,7 @@ public class JEJU {
 			                  ps = conn.prepareStatement(sql);
 			                    ps.clearParameters();
 			                    ps.setString(1,del_uID);
-			                    ps.execute();
+			                    rs = ps.executeQuery();
 			                    System.out.println("삭제가 완료되었습니다.");
 			               }
 			               

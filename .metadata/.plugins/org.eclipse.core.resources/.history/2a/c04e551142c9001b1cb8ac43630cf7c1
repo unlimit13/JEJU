@@ -154,20 +154,7 @@ public class Methods {
 			datas.add(data);
 	    }
 		for(int i = 0; i < datas.size(); i++) {
-			sql = "insert into total_attraction values('" + datas.get(i).get(0) +"','" + datas.get(i).get(1) + "', 21);";
-			statement.execute(sql);
-		}
-		datas = new ArrayList<ArrayList<String>>();
-		sql = "select aname, addr from att_2_1_b;";
-		rs = statement.executeQuery(sql);
-		while (rs.next()) {
-			ArrayList<String> data = new ArrayList<>();
-	        data.add(rs.getString(1));
-			data.add(rs.getString(2));
-			datas.add(data);
-	    }
-		for(int i = 0; i < datas.size(); i++) {
-			sql = "insert into total_attraction values('" + datas.get(i).get(0) +"','" + datas.get(i).get(1) + "', 21);";
+			sql = "insert into total_attraction values('" + datas.get(i).get(0) +"','" + datas.get(i).get(1) + "', 212);";
 			statement.execute(sql);
 		}
 		
@@ -220,8 +207,8 @@ public class Methods {
 		}
 		
 		datas = new ArrayList<ArrayList<String>>();
-		String[] att = { "att_1_2_h", "att_1_2_m", "att_2_2_b", "att_2_2_p", "att_2_3" };
-		String[] att_num = { "121", "122", "221", "222", "23" };
+		String[] att = { "att_1_2_h", "att_1_2_m", "att_2_1_b", "att_2_2_b", "att_2_2_p", "att_2_3" };
+		String[] att_num = { "121", "122", "211", "221", "222", "23" };
 		sql = "create table if not exists total_attraction(aname varchar(50), addr varchar(100), class_a varchar(10));";
 		statement.executeUpdate(sql);
 		

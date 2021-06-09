@@ -42,7 +42,7 @@ public class JEJU {
 		PreparedStatement ps;
 	    ResultSet rs;
 
-	    
+	    int state = 0;
 		int check_total_attraction=1;
 		int check_total_lodgment=1;
 
@@ -548,141 +548,152 @@ public class JEJU {
 					}
 				
 					else if(token==3) {//관광지 질
-						String first = "";
-						String select = "";
-						System.out.println();
-						System.out.println("Select 1 or 2");
-						System.out.println("-----------------");
-						System.out.println("1. 활동적인 ");
-						System.out.println("2. 잔잔한 ");
-						System.out.println("3. 올레길 ");
-						System.out.println("4. 카페투어 ");
-						System.out.println("-----------------");
-					
-						int token1 = scan.nextInt();
-						System.out.println();
-						if(token1==1) {
-							System.out.println("Selected '활동적인'");
-							first ="  활동적인 ";
-							select= select + Integer.toString(token1);
-							
-							System.out.println();
-							System.out.println("-----------------");
-							System.out.println("1. 바다 ");
-							System.out.println("2. 산 ");
-							System.out.println("-----------------");
-							int token11 = scan.nextInt();
-							
-							if(token11 == 1) {
-								System.out.println("Select '바다'");
-								first = first + "  바다 ";
-								select = select + Integer.toString(token11);
-								
-							}else if(token11 == 2) {
-								System.out.println("Select '산'");
-								first = first + "  산 ";
-								select = select + Integer.toString(token11);
-								
-								System.out.println();
-								System.out.println("-----------------");
-								System.out.println("1. 승마 ");
-								System.out.println("2. 오름 ");
-								System.out.println("-----------------");
-								int token111 = scan.nextInt();
-								
-								if(token111 == 1) {
-									System.out.println("Select '승마'");
-									first = first + "  승마 ";
-									select = select + Integer.toString(token111);
-								}else if(token111 == 2) {
-									System.out.println("Select '오름'");
-									first = first + "  오름 ";
-									select = select + Integer.toString(token111);
-								}
-							}
-						}
-						else if(token1==2) {
-							System.out.println("Select '잔잔한'");
-							first ="  잔잔한 ";
-							select = select + Integer.toString(token1);
-							
-							System.out.println();
-							System.out.println("-----------------");
-							System.out.println("1. 바다 ");
-							System.out.println("2. 산 ");
-							System.out.println("3. 기타 ");
-							System.out.println("-----------------");
-							int token11 = scan.nextInt();
-							
-							if(token11 == 1) {
-								System.out.println("Select '바다'");
-								first = first + "  바다 ";
-								select = select + Integer.toString(token11);
-					
-							}else if(token11 == 2) {
-								System.out.println("Select '산'");
-								first = first +  "  산 ";
-								select = select + Integer.toString(token11);
-								
-								System.out.println();
-								System.out.println("-----------------");
-								System.out.println("1. 식물원 ");
-								System.out.println("2. 관광농원 ");
-								System.out.println("3. 숲길 ");
-								System.out.println("-----------------");
-								int token111 = scan.nextInt();
-								
-								if(token111 == 1) {
-									System.out.println("Select '식물원'");
-									first = first + "  식물원 ";
-									select = select + Integer.toString(token111);
-								}else if(token111 == 2) {
-									System.out.println("Select '관광농원'");
-									first = first + "  관광농원 ";
-									select = select + Integer.toString(token111);
-								}
-								else if(token111 == 3) {
-									System.out.println("Select '숲길'");
-									first = first + "  숲길 ";
-									select = select + Integer.toString(token111);
-								}
-							}else if(token11 == 3) {
-								System.out.println("Select '기타'");
-								first = first +  "  기타 ";
-								select = select + Integer.toString(token11);
-							}
-						}
-						else if(token1==3) {
-							System.out.println("Select '올레길'");
-							first ="  올레길 ";
-							select = select + Integer.toString(token1);
-						}
-						else if(token1==4) {
-							System.out.println("Select '카페투어'");
-							first ="  카페투어 ";
-							select = select + Integer.toString(token1);
-						}
-						
-						System.out.println();
-						
-						statement = conn.createStatement();
+		                  String first = "";
+		                  String select = "";
+		                  System.out.println();
+		                  System.out.println("Select 1 or 2");
+		                  System.out.println("-----------------");
+		                  System.out.println("1. 활동적인 ");
+		                  System.out.println("2. 잔잔한 ");
+		                  System.out.println("3. 올레길 ");
+		                  System.out.println("4. 카페투어 ");
+		                  System.out.println("-----------------");
+		               
+		                  int token1 = scan.nextInt();
+		                  System.out.println();
+		                  if(token1==1) {
+		                     System.out.println("Selected '활동적인'");
+		                     first ="  활동적인 ";
+		                     select= select + Integer.toString(token1);
+		                     
+		                     System.out.println();
+		                     System.out.println("-----------------");
+		                     System.out.println("1. 바다 ");
+		                     System.out.println("2. 산 ");
+		                     System.out.println("-----------------");
+		                     int token11 = scan.nextInt();
+		                     
+		                     if(token11 == 1) {
+		                        System.out.println("Select '바다'");
+		                        first = first + "  바다 ";
+		                        select = select + Integer.toString(token11);
+		               
+		                        System.out.println();
+		                        System.out.println("-----------------");
+		                        System.out.println("1. 광광유람선 ");
+		                        System.out.println("2. 레저 ");
+		                        System.out.println("-----------------");
+		                        int token111 = scan.nextInt();
+		                        
+		                        if(token111 == 1) {
+		                           System.out.println("Select '관광유람선'");
+		                           first = first + "  관광유람선 ";
+		                           select = select + Integer.toString(token111);
+		                        }else if(token111 == 2) {
+		                           System.out.println("Select '레저'");
+		                           first = first + "  레저 ";
+		                           select = select + Integer.toString(token111);
+		                        }
+		                     }else if(token11 == 2) {
+		                        System.out.println("Select '산'");
+		                        first = first + "  산 ";
+		                        select = select + Integer.toString(token11);
+		                        
+		                        System.out.println();
+		                        System.out.println("-----------------");
+		                        System.out.println("1. 승마 ");
+		                        System.out.println("2. 오름 ");
+		                        System.out.println("-----------------");
+		                        int token111 = scan.nextInt();
+		                        
+		                        if(token111 == 1) {
+		                           System.out.println("Select '승마'");
+		                           first = first + "  승마 ";
+		                           select = select + Integer.toString(token111);
+		                        }else if(token111 == 2) {
+		                           System.out.println("Select '오름'");
+		                           first = first + "  오름 ";
+		                           select = select + Integer.toString(token111);
+		                        }
+		                     }
+		                  }
+		                  else if(token1==2) {
+		                     System.out.println("Select '잔잔한'");
+		                     first ="  잔잔한 ";
+		                     select = select + Integer.toString(token1);
+		                     
+		                     System.out.println();
+		                     System.out.println("-----------------");
+		                     System.out.println("1. 바다 ");
+		                     System.out.println("2. 산 ");
+		                     System.out.println("3. 기타 ");
+		                     System.out.println("-----------------");
+		                     int token11 = scan.nextInt();
+		                     
+		                     if(token11 == 1) {
+		                        System.out.println("Select '바다'");
+		                        first = first + "  바다 ";
+		                        select = select + Integer.toString(token11);
+		               
+		                     }else if(token11 == 2) {
+		                        System.out.println("Select '산'");
+		                        first = first +  "  산 ";
+		                        select = select + Integer.toString(token11);
+		                        
+		                        System.out.println();
+		                        System.out.println("-----------------");
+		                        System.out.println("1. 식물원 ");
+		                        System.out.println("2. 관광농원 ");
+		                        System.out.println("3. 숲길 ");
+		                        System.out.println("-----------------");
+		                        int token111 = scan.nextInt();
+		                        
+		                        if(token111 == 1) {
+		                           System.out.println("Select '식물원'");
+		                           first = first + "  식물원 ";
+		                           select = select + Integer.toString(token111);
+		                        }else if(token111 == 2) {
+		                           System.out.println("Select '관광농원'");
+		                           first = first + "  관광농원 ";
+		                           select = select + Integer.toString(token111);
+		                        }
+		                     }else if(token11 == 3) {
+		                        System.out.println("Select '기타'");
+		                        first = first +  "  기타 ";
+		                        select = select + Integer.toString(token11);
+		                     }
+		                  }
+		                  else if(token1==3) {
+		                     System.out.println("Select '올레길'");
+		                     first ="  올레길 ";
+		                     select = select + Integer.toString(token1);
+		                  }
+		                  else if(token1==4) {
+		                     System.out.println("Select '카페투어'");
+		                     first ="  카페투어 ";
+		                     select = select + Integer.toString(token1);
+		                  }
+		                  
+		                  System.out.println();
+		                  
+		                  statement = conn.createStatement();
 
-						System.out.println();
-						System.out.println("---------------결과----------------");
-						System.out.println(first);
-						Methods.attraction(statement, select);
-						sql = "insert into best_attraction values(?,?,?,?);";
-						ps = conn.prepareStatement(sql);
-						ps.clearParameters();
-					    ps.setString(1, uID);
-					    ps.setString(2, select);
-					    ps.setString(3, sex);
-					    ps.setInt(4, (age/10)*10);
-						ps.execute();
-						
-						scan.nextLine();
+		                  System.out.println();
+		                  System.out.println("---------------결과----------------");
+		                  System.out.println(first);
+		                  Methods.attraction(statement, select);
+		                  sql = "insert into best_attraction values(?,?,?,?);";
+		                  ps = conn.prepareStatement(sql);
+		                  ps.clearParameters();
+		                   ps.setString(1, uID);
+		                   ps.setString(2, select);
+		                   ps.setString(3, sex);
+		                   ps.setInt(4, (age/10)*10);
+		                  ps.execute();
+		                  
+		                  scan.nextLine();
 
-					}
+		               }
 					else if(token==4) {
 						
 						
@@ -732,7 +743,7 @@ public class JEJU {
 						
 						}
 						else if(token4==2) {
-							System.out.printf("ID : %s님이 설정한 %s/%d대 에서의 가장 인기있는 관광지는\n",uID, (sex=="f") ? "여" : "남", (age/10)*10);
+							System.out.printf("ID : %s님이 설정한 %s/%d대 에서의 가장 인기있는 관광지는",uID, (sex=="f") ? "여" : "남", (age/10)*10);
 							sql = "select sel_class from bt_attraction where sex = ? and age = ?;";
 							ps = conn.prepareStatement(sql);
 							ps.clearParameters();
@@ -745,12 +756,12 @@ public class JEJU {
 							String bt_sel1 = rs.getString(1);
 							sentence = Methods.getSentence1(sentence, bt_sel1);
 							
-							System.out.printf("카테고리: %s\n",sentence);
+							System.out.printf("카테고리: %s",sentence);
 							Methods.attraction(statement,bt_sel1);
 							
 						}
 						else if(token4==3) {
-							System.out.printf("ID : %s님이 설정한 %s/%d대 에서의 가장 인기있는 숙박형태는\n",uID, (sex=="f") ? "여" : "남", (age/10)*10);
+							System.out.printf("ID : %s님이 설정한 %s/%d대 에서의 가장 인기있는 숙박형태는",uID, (sex=="f") ? "여" : "남", (age/10)*10);
 							sql = "select sel_class from bt_lodgement where sex = ? and age = ?;";
 							ps = conn.prepareStatement(sql);
 							ps.clearParameters();
@@ -767,7 +778,7 @@ public class JEJU {
 							System.out.println(bt_sel2);
 							sentence= Methods.getSentence2(sentence, bt_sel2);
 							
-							System.out.printf("카테고리: %s\n",sentence);
+							System.out.printf("카테고리: %s",sentence);
 							Methods.lodg(statement, bt_sel2);
 						}
 					
@@ -806,10 +817,6 @@ public class JEJU {
 			         {
 			            System.out.println();
 			            System.out.println("데이터관리 ");
-			            System.out.println("-----------------");
-				        System.out.println("1. 데이터 추가");
-				        System.out.println("2. 데이터 삭제");
-				        System.out.println("-----------------");
 			            String bit3 = scan.nextLine();
 			            if(bit3.contains("1"))
 			            {
@@ -884,7 +891,7 @@ public class JEJU {
 			                  ps = conn.prepareStatement(sql);
 			                    ps.clearParameters();
 			                    ps.setString(1,del_uID);
-			                    ps.execute();
+			                    rs = ps.executeQuery();
 			                    System.out.println("삭제가 완료되었습니다.");
 			               }
 			               

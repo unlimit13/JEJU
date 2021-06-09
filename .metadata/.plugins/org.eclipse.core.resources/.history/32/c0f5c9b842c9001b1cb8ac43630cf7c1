@@ -42,7 +42,7 @@ public class JEJU {
 		PreparedStatement ps;
 	    ResultSet rs;
 
-	    
+	    int state = 0;
 		int check_total_attraction=1;
 		int check_total_lodgment=1;
 
@@ -732,7 +732,7 @@ public class JEJU {
 						
 						}
 						else if(token4==2) {
-							System.out.printf("ID : %s님이 설정한 %s/%d대 에서의 가장 인기있는 관광지는\n",uID, (sex=="f") ? "여" : "남", (age/10)*10);
+							System.out.printf("ID : %s님이 설정한 %s/%d대 에서의 가장 인기있는 관광지는",uID, (sex=="f") ? "여" : "남", (age/10)*10);
 							sql = "select sel_class from bt_attraction where sex = ? and age = ?;";
 							ps = conn.prepareStatement(sql);
 							ps.clearParameters();
@@ -750,7 +750,7 @@ public class JEJU {
 							
 						}
 						else if(token4==3) {
-							System.out.printf("ID : %s님이 설정한 %s/%d대 에서의 가장 인기있는 숙박형태는\n",uID, (sex=="f") ? "여" : "남", (age/10)*10);
+							System.out.printf("ID : %s님이 설정한 %s/%d대 에서의 가장 인기있는 숙박형태는",uID, (sex=="f") ? "여" : "남", (age/10)*10);
 							sql = "select sel_class from bt_lodgement where sex = ? and age = ?;";
 							ps = conn.prepareStatement(sql);
 							ps.clearParameters();
@@ -806,10 +806,6 @@ public class JEJU {
 			         {
 			            System.out.println();
 			            System.out.println("데이터관리 ");
-			            System.out.println("-----------------");
-				        System.out.println("1. 데이터 추가");
-				        System.out.println("2. 데이터 삭제");
-				        System.out.println("-----------------");
 			            String bit3 = scan.nextLine();
 			            if(bit3.contains("1"))
 			            {
@@ -884,7 +880,7 @@ public class JEJU {
 			                  ps = conn.prepareStatement(sql);
 			                    ps.clearParameters();
 			                    ps.setString(1,del_uID);
-			                    ps.execute();
+			                    rs = ps.executeQuery();
 			                    System.out.println("삭제가 완료되었습니다.");
 			               }
 			               

@@ -54,6 +54,7 @@ public class Methods {
 				data.add(rs.getString(5));
 				datas.add(data);
 		    }
+			System.out.println(datas.size());
 			for(int j = 0; j < datas.size(); j++) {
 				sql = "insert into total_lodgment values('" + datas.get(j).get(0) +"','" + datas.get(j).get(1) + "','"+datas.get(j).get(2)+"' ,'"+datas.get(j).get(3)+"','" + datas.get(j).get(4) +"');";
 				statement.execute(sql);

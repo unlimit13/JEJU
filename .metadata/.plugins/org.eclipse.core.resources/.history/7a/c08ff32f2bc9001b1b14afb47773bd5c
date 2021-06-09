@@ -762,7 +762,7 @@ public class JEJU {
 						
 						
 						}
-					}scan.nextLine();
+					}
 					
 				
 				}
@@ -880,6 +880,7 @@ public class JEJU {
 					
 			      }
 		            
+				scan.nextLine(); 
 		     
 		      }
 			

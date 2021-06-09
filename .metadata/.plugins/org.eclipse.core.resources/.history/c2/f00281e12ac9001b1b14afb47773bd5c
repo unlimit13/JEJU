@@ -757,12 +757,11 @@ public class JEJU {
 						}
 					else {
 						System.out.printf("%s님, 로그아웃 되었습니다.\n",uID);
-						
 						exit=1;
 						
 						
 						}
-					}scan.nextLine();
+					}
 					
 				
 				}
@@ -879,6 +878,7 @@ public class JEJU {
 					
 					
 			      }
+		            
 		            
 		     
 		      }

@@ -45,6 +45,8 @@ public class JEJU {
 	    
 		int check_total_attraction=1;
 		int check_total_lodgment=1;
+		
+		
 
 		
 		try {
@@ -65,7 +67,9 @@ public class JEJU {
 			
 			
 			Statement statement = conn.createStatement();
-
+			
+			
+			
 
 			
 			if(check_total_attraction == 1)
@@ -79,9 +83,42 @@ public class JEJU {
 				Methods.total_lodgment(statement); //(total attraction 테이블 생성후 attraction 모두 합침)
 				check_total_lodgment = -1;
 			}
+			
+			sql="create or replace function add_att_f() returns trigger as $$"+"\n"+
+					"begin"+"\n"+
+					 "IF (New.aname not in (select aname from total_attraction)) THEN"+"\n"+
+					 "return New;"+"\n"+
+					 "ELSE"+"\n"+
+					 "return null;"+"\n"+
+					 "END IF;"+"\n"+
+					 "end;"+
+					 "$$"+
+					 "language 'plpgsql';"+
+					 "create trigger add_att"+"\n"+
+					 "before insert on total_attraction"+"\n"+
+					 "for each row"+"\n"+
+					 "execute procedure add_att_f();";
+			ps = conn.prepareStatement(sql);
+			ps.execute(); //attraction추가 trigger생성
+			
+			sql="create or replace function add_lodge_f() returns trigger as $$"+"\n"+
+					"begin"+"\n"+
+					 "IF (New.lname not in (select lname from total_lodgment)) THEN"+"\n"+
+					 "return New;"+"\n"+
+					 "ELSE"+"\n"+
+					 "return null;"+"\n"+
+					 "END IF;"+"\n"+
+					 "end;"+
+					 "$$"+
+					 "language 'plpgsql';"+
+					 "create trigger add_lodge"+"\n"+
+					 "before insert on total_lodgment"+"\n"+
+					 "for each row"+"\n"+
+					 "execute procedure add_lodge_f();";
+			ps = conn.prepareStatement(sql);
+			ps.execute(); //lodgement추가 trigger생성
 
-			Methods.view_att(statement);
-			Methods.view_lodg(statement);
+			
 			
 			while(true) 
 			{	
@@ -807,20 +844,101 @@ public class JEJU {
 			            System.out.println();
 			            System.out.println("데이터관리 ");
 			            System.out.println("-----------------");
-				        System.out.println("1. 데이터 추가");
-				        System.out.println("2. 데이터 삭제");
+				        System.out.println("1. 데이터 add");
+				        System.out.println("2. 데이터 drop");
+				        System.out.println("3. 데이터 commit");
 				        System.out.println("-----------------");
+				        
+				        sql =	"create table if not exists add_lodge(lname varchar(50), addr varchar(100), pnum varchar(20), class_l varchar(10));"+
+								"create table if not exists add_att(aname varchar(50), addr varchar(100), class_a varchar(10));";
+						ps = conn.prepareStatement(sql);
+						result = ps.executeUpdate(); //host, rank table생성
+						
+						
+						
 			            String bit3 = scan.nextLine();
 			            if(bit3.contains("1"))
 			            {
 			               System.out.println();
-			               System.out.println("데이터추가");
+			               System.out.println("add\n");
+			               System.out.println("추가할 Data in [관광/숙박] : ");
+			               String tablename = scan.nextLine();
+			               
+			               
+			               
+			               System.out.println("이름 : ");
+			               String aname = scan.nextLine();
+			               System.out.println("주소 : ");
+			               String addr = scan.nextLine();
+			               System.out.println("전화번호 : ");
+			               String numm = scan.nextLine();
+			               System.out.println("클래스 : ");
+			               String tmpclass = scan.nextLine();
+			               
+			               if(tablename.equals("관광")) {
+			            	   sql="insert into add_att values(?,?,?);";
+				               ps = conn.prepareStatement(sql);
+				               ps.clearParameters();
+				               ps.setString(1, aname);
+				               ps.setString(2, addr);
+				               ps.setString(3, tmpclass);
+				               ps.execute();
+			               }
+			               else if (tablename.equals("숙박")) {
+			            	   sql="insert into lodge_att values(?,?,?,?);";
+				               ps = conn.prepareStatement(sql);
+				               ps.clearParameters();
+				               ps.setString(1, aname);
+				               ps.setString(2, addr);
+				               ps.setString(3, numm);
+				               ps.setString(4, tmpclass);
+				               ps.execute();
+			               }
+			               
+			               
 			            }
 			            else if(bit3.contains("2"))
 			            {
 			               System.out.println();
-			               System.out.println("데이터삭제");
+			               System.out.println("delete\n");
+			               System.out.println("drop in [관광/숙박] : ");
+			               String tablename = scan.nextLine();
+			               
+			               
+			               
+			           
+			               if(tablename.equals("관광")) {
+			            	   sql="drop table att_add;";
+				               ps = conn.prepareStatement(sql);
+				               ps.execute();
+			               }
+			               else if (tablename.equals("숙박")) {
+			            	   sql="drop table lodge_add;";
+				               ps = conn.prepareStatement(sql);
+				               ps.execute();
+			               }
 			            }
+			            else if(bit3.contains("3"))
+			            {
+			               System.out.println();
+			               System.out.println("commit\n");
+			               
+			               System.out.println("commit in [관광/숙박] : ");
+			               String tablename = scan.nextLine();
+			               
+			           
+			               if(tablename.equals("관광")) {
+			            	   sql="insert into total_attraction select * from att_add;";
+				               ps = conn.prepareStatement(sql);
+				               ps.execute();
+			               }
+			               else if (tablename.equals("숙박")) {
+			            	   sql="insert into total_lodgement select * from lodge_add;";
+				               ps = conn.prepareStatement(sql);
+				               ps.execute();
+			               }
+			            }
+			            
 			            
 			         }
 			         else if(bit2.contains("2"))//회원관리

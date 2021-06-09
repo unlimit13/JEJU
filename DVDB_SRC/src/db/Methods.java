@@ -8,32 +8,28 @@ import java.util.Scanner;
 
 public class Methods {
 
-	public static void view_lodg(Statement statement) throws SQLException {
-		String sql = "create or replace view lodg as select lname, addr, room_num, pnum, class_l from total_lodgment;";
-		statement.executeUpdate(sql);
-	}
+	
 	
    public static void lodg(Statement statement, String select) throws SQLException {
 
       Scanner scan = new Scanner(System.in);
-      String sql = "select lname, addr, room_num, pnum from lodg where class_l ='"+ select + "';";
+      String sql = "select lname, addr, pnum from total_lodgment where class_l ='"+ select + "';";
       ResultSet rs = statement.executeQuery(sql);
       
       
       while(rs.next()) {
-         String colValue = "이름: " + rs.getString(1) + " / 주소: " + rs.getString(2) + " / 방 개수: " + rs.getString(3)+ " / 전화번호: " + rs.getString(4);
+         String colValue = "이름: " + rs.getString(1) + " / 주소: " + rs.getString(2) + " / 전화번호: " + rs.getString(3);
          System.out.println(colValue);
       }
 
    }
    
    public static void total_lodgment(Statement statement) throws SQLException {
-		String sql = "create table if not exists total_lodgment(lname varchar(50), addr varchar(100), room_num int, pnum varchar(20), class_l varchar(10));";
+		String sql = "create table if not exists total_lodgment(lname varchar(50), addr varchar(100), pnum varchar(20), class_l varchar(10));";
 		statement.executeUpdate(sql);
 		ArrayList<ArrayList<String>> datas = new ArrayList<ArrayList<String>>();
 		
-		sql = "select aname, loc from att_1_1;";
-		ResultSet rs = statement.executeQuery(sql);
+		ResultSet rs;
 		
 		
 		datas = new ArrayList<ArrayList<String>>();
@@ -43,7 +39,7 @@ public class Methods {
 		
 		for(int i=0; i < lodg.length; i++) {
 			datas = new ArrayList<ArrayList<String>>();
-			sql = "select lname, addr, room_num, pnum, class_l from lodgment"+ lodg[i] +";";
+			sql = "select lname, addr, pnum, class_l from lodgment"+ lodg[i] +";";
 			rs = statement.executeQuery(sql);
 			while (rs.next()) {
 				ArrayList<String> data = new ArrayList<>();
@@ -51,11 +47,10 @@ public class Methods {
 				data.add(rs.getString(2));
 				data.add(rs.getString(3));
 				data.add(rs.getString(4));
-				data.add(rs.getString(5));
 				datas.add(data);
 		    }
 			for(int j = 0; j < datas.size(); j++) {
-				sql = "insert into total_lodgment values('" + datas.get(j).get(0) +"','" + datas.get(j).get(1) + "','"+datas.get(j).get(2)+"' ,'"+datas.get(j).get(3)+"','" + datas.get(j).get(4) +"');";
+				sql = "insert into total_lodgment values('" + datas.get(j).get(0) +"','" + datas.get(j).get(1) + "','"+datas.get(j).get(2)+"' ,'"+datas.get(j).get(3)+"');";
 				statement.execute(sql);
 			}
 		}
@@ -243,15 +238,12 @@ public class Methods {
 		}	
 	}
    
-   public static void view_att(Statement statement) throws SQLException{
-		String sql = "create or replace view att as select aname, addr, class_a from total_attraction;";
-		statement.executeUpdate(sql);
-}
+  
    
    public static void attraction(Statement statement, String select) throws SQLException {
 		
 
-		String sql = "select aname, addr from att where class_a = '"+ select +"';";
+		String sql = "select aname, addr from total_attraction where class_a = '"+ select +"';";
 		ResultSet rs = statement.executeQuery(sql);
 		
 		int count = 1;

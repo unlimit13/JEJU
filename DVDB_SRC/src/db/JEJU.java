@@ -24,11 +24,12 @@ import java.util.Collections;
 import java.util.Scanner;
 
 
-public class JEJU {
+public class Db {
 	
 	private static String url = "jdbc:postgresql://localhost:5432/postgres";
-	private static String user = "unlimit13";
-	private static String password = "1q2w3e4r!";
+	private static String user = "postgres";
+
+	private static String password = "inter7477";
 	
 
 	public static void main(String args[]) throws SQLException, IOException {
@@ -43,6 +44,7 @@ public class JEJU {
 
 	    int state = 0;
 		int check_total_attraction=1;
+		int check_total_lodgment=1;
 
 		
 		try {
@@ -72,7 +74,14 @@ public class JEJU {
 				check_total_attraction = -1;
 			}
 			
+			if(check_total_lodgment == 1)
+			{
+				Methods.total_lodgment(statement); //(total attraction 테이블 생성후 attraction 모두 합침)
+				check_total_lodgment = -1;
+			}
 
+			Methods.view_att(statement);
+			Methods.view_lodg(statement);
 			
 			while(true) 
 			{	
@@ -637,6 +646,11 @@ public class JEJU {
 								first = first +  "  기타 ";
 								select = select + Integer.toString(token11);
 							}
+						}
+						else if(token1==3) {
+							System.out.println("Select '올레길'");
+							first ="  올레길 ";
+							select = select + Integer.toString(token1);
 						}
 						else if(token1==4) {
 							System.out.println("Select '카페투어'");

@@ -87,14 +87,13 @@ public class Methods {
 		return sentence;
 	}
 	
-	public static void total_attraction(Statement statement) throws SQLException {
-		
+	public static int total_attraction(Statement statement, int state) throws SQLException {
+		if(state==0) {
 			
 		String sql = "create table if not exists total_attraction(aname varchar(50), addr varchar(100), class_a varchar(10));";
 		statement.executeUpdate(sql);
 		ArrayList<ArrayList<String>> datas = new ArrayList<ArrayList<String>>();
 		
-
 		sql = "select aname, loc from att_1_1;";
 		ResultSet rs = statement.executeQuery(sql);
 		while (rs.next()) {
@@ -144,7 +143,9 @@ public class Methods {
 			}
 			
 		}
-		
+		state=1;
+		}
+		return state;
 	}
 	
 public static void attraction(Statement statement, String select) throws SQLException {

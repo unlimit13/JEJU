@@ -40,6 +40,7 @@ public class JEJU {
 		String sql;
 		PreparedStatement ps;
 	    ResultSet rs;
+	    int state = 0;
 		
 		
 		try {
@@ -61,7 +62,7 @@ public class JEJU {
 			
 			
 			Statement statement = conn.createStatement();
-			Methods.total_attraction(statement); //(total attraction 테이블 생성후 attraction 모두 합침)
+			state = Methods.total_attraction(statement,state); //(total attraction 테이블 생성후 attraction 모두 합침)
 			
 			while(true) 
 			{	

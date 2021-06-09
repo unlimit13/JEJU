@@ -94,7 +94,6 @@ public class Methods {
 		statement.executeUpdate(sql);
 		ArrayList<ArrayList<String>> datas = new ArrayList<ArrayList<String>>();
 		
-
 		sql = "select aname, loc from att_1_1;";
 		ResultSet rs = statement.executeQuery(sql);
 		while (rs.next()) {
